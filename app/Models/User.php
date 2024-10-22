@@ -45,4 +45,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    
+    public function polls()
+    {
+        return $this->belongsToMany(Poll::class, 'poll_user')->withPivot('points')->withTimestamps();
+    }
+
+    public function availabilities()
+    {
+        return $this->hasMany(UserDateAvailability::class);
+    }
 }

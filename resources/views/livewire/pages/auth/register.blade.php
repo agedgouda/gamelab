@@ -14,6 +14,16 @@ new #[Layout('layouts.guest')] class extends Component
     public string $email = '';
     public string $password = '';
     public string $password_confirmation = '';
+    public $message;
+    public $route;
+
+    public function mount()
+    {
+        // Retrieve session flash data (if available) for message and route
+        $this->message = session('message', 'ddd'); // default value is 'sheboygan'
+        $this->route = session('route', '/schedule'); // default value is 'dashboard'
+    }
+
 
     /**
      * Handle an incoming registration request.
@@ -32,7 +42,7 @@ new #[Layout('layouts.guest')] class extends Component
 
         Auth::login($user);
 
-        $this->redirect(route('dashboard', absolute: false), navigate: true);
+        $this->redirectIntended(default: $this->route, navigate: true);
     }
 }; ?>
 

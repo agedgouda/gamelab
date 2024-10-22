@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Manage Games') }}
         </h2>
     </x-slot>
 
@@ -14,27 +14,13 @@
                             @livewire('create-game')
                             @livewire('list-games')
                             @break
-
-                        @case(request()->routeIs('schedule') || request()->routeIs('dashboard'))
-                            @livewire('schedule-game')
-                            @break
-
-                        @case(request()->routeIs('users'))
-                            @livewire('users')
-                            @break
-                        
                         @case(request()->routeIs('game-details'))
                             @livewire('game-details',['bggId' => $bggId])
                             @break
-
-                        @default
-                            <p>No matching route found.</p>
                     @endswitch
                 </div>
             </div>
         </div>
-
- 
     </div>
 
 </x-app-layout>

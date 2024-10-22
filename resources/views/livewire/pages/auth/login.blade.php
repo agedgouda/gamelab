@@ -9,6 +9,26 @@ new #[Layout('layouts.guest')] class extends Component
 {
     public LoginForm $form;
 
+    public $message;
+    public $route;
+
+    public function mount()
+    {
+        // Retrieve session flash data (if available) for message and route
+        $this->message = session('message', ''); // default value is 'sheboygan'
+        $this->route = session('route', '/schedule'); // default value is 'dashboard'
+    }
+
+    public function redirectToRegister()
+    {
+        // Set the session variables
+        Session::put('message', $this->message);
+        Session::put('route', $this->route);
+
+        // Redirect to the register page
+        return redirect()->to('/register');
+    }
+
     /**
      * Handle an incoming authentication request.
      */
@@ -20,14 +40,14 @@ new #[Layout('layouts.guest')] class extends Component
 
         Session::regenerate();
 
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+        $this->redirectIntended(default: $this->route, navigate: true);
     }
 }; ?>
 
 <div>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-
+    {{ $message }} <br />
     <form wire:submit="login">
         <!-- Email Address -->
         <div>
@@ -54,6 +74,12 @@ new #[Layout('layouts.guest')] class extends Component
                 <input wire:model="form.remember" id="remember" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
                 <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
             </label>
+        </div>
+        
+        <div class="block mt-4">
+        <a href="#" wire:click="redirectToRegister" class="ms-2 text-sm text-gray-600">
+            Not registered yet? Click here!
+        </a>
         </div>
 
         <div class="flex items-center justify-end mt-4">
