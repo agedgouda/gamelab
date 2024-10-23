@@ -13,6 +13,22 @@ Route::view('event/{eventId}', 'welcome')
     ->name('view-events');
 */
 
+Route::get('test-email', function () {
+    $details = [
+        'title' => 'Test Email',
+        'body' => 'This is a test email sent using SendGrid.'
+    ];
+
+    Mail::raw('This is a test email sent using SendGrid.', function ($message) {
+        $message->to('recipient@example.com')
+            ->subject('Test Email from SendGrid');
+    });
+
+    return 'Email sent successfully!';
+});
+
+
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
@@ -41,5 +57,8 @@ Route::view('games/{bggId}', 'games')
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
+
+
+
 
 require __DIR__.'/auth.php';

@@ -34,9 +34,21 @@
                     @error('invite') 
                         <div class="error text-red-500">{{ $message }}</div>
                     @enderror
-                    <x-primary-button class="px-4 py-2">
+
+                    <!-- Disable button while processing -->
+                    <x-primary-button class="px-4 py-2" wire:loading.attr="disabled" :disabled="$isProcessing">
                         Send Invitation
                     </x-primary-button>
+                </div>
+            </div>
+
+            <!-- Feedback messages -->
+            <div class="mt-2">
+                @if($emailSent === true)
+                    <div class="text-green-500">Invitation Sent</div>
+                @elseif($emailSent === false)
+                    <div class="text-red-500">Email not sent. Please try again.</div>
+                @endif
             </div>
         </form>
     </div>
