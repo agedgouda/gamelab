@@ -16,7 +16,7 @@ new #[Layout('layouts.guest')] class extends Component
     {
         // Retrieve session flash data (if available) for message and route
         $this->message = session('message', ''); // default value is 'sheboygan'
-        $this->route = session('route', '/schedule'); // default value is 'dashboard'
+        $this->route = session('route', url()->previous()); // default value is the page the login link was sent from
     }
 
     public function redirectToRegister()

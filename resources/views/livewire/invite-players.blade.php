@@ -15,6 +15,7 @@
             <div class="flex justify-center">{{ $invitee->message_status }}</div>
         </div>
         @endforeach
+        @if(auth()->check())
         <form wire:submit.prevent="sendInvite({{ $eventId }})">
             <div class="grid grid-cols-3 mb-2 {{ count($invitees) % 2 === 0 ? 'bg-gray-200' : '' }} py-4">
                 <div class="flex flex-col items-start pl-3">
@@ -54,5 +55,6 @@
                 @endif
             </div>
         </form>
+        @endif
     </div>
 </div>
