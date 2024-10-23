@@ -76,6 +76,12 @@ new class extends Component
                     </x-slot>
                 </x-dropdown>
             </div>
+            @else
+            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <x-nav-link :href="route('login')" wire:navigate>
+                    {{ __('Login') }}
+                </x-nav-link>
+            </div>
             @endif
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">

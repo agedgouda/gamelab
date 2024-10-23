@@ -66,7 +66,11 @@ class InvitePlayers extends Component
             $this->emailSent = true;
         } catch (\Exception $e) {
             // Mark failure
+            // Reset form fields
+            $this->name = '';
+            $this->email = '';
             $this->emailSent = false;
+            \Log::error($e);
         }
     
         $this->isProcessing = false;
