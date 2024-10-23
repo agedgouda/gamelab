@@ -1,10 +1,6 @@
 <div>
     <div class="relative">
-
-
-    <form wire:submit="{{ $isEditMode ? 'updateEvent' : 'createEvent' }}">
-
-    
+    <form wire:submit="{{ $isEditMode ? 'updateEvent' : 'createEvent' }}"> 
         <div class="grid grid-cols-4">    
             <div class="mt-4 mb-5">
                 <x-input-label for="title" :value="__('Name')" />
@@ -129,7 +125,6 @@
             
             </div>
         @endforeach
-
         <div class="flex justify-end space-x-4 mt-4">
             <x-secondary-button wire:click="resetForm">
                 {{ __('Cancel') }}
@@ -140,7 +135,6 @@
             </x-primary-button>
         </div>
     </form>
-
     <div class="mt-5 font-bold">
         Upcoming Games
     </div>

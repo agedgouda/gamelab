@@ -17,7 +17,7 @@ class ListEvents extends Component
 
     public function render()
     {
-        $this->events = Event::with(['game', 'proposedDates'])
+        $this->events = Event::with(['game', 'proposedDates.availabilities.user','invitees'])
         ->whereHas('proposedDates', function ($query) {
             $query->where('date_time', '>=', now());
         })
@@ -25,7 +25,7 @@ class ListEvents extends Component
             $query->where('date_time', '<', now());
             })
         ->get();
-
+        
         return view('livewire.list-events');
     }
 }

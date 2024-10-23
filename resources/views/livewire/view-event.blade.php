@@ -1,6 +1,6 @@
 <div>
     <x-primary-button class="pl-5 mb-2">
-        <a href="javascript:void(0)" onclick="window.history.back()">Back</a>
+        <a href="/events">Back</a>
     </x-primary-button>
     <div>
         <span class="font-bold">Title:</span> {{ $event->title }} 
@@ -13,8 +13,8 @@
     </div>
     <div>
         <div class="font-bold">Proposed Times</div>
-        <div class="grid grid-cols-2 mb-2">
-            @foreach($event->proposedDates as $date)
+        @foreach($event->proposedDates as $date)
+        <div class="grid grid-cols-2 mb-2  {{ $loop->odd ? 'bg-gray-200' : '' }}">
             
             @php
                 // Get the availability for the current user
@@ -73,9 +73,13 @@
                         {{ $notAvailable->pluck('user_name')->implode(', ') }}
                     @endif
             </div>
-        @endforeach
+        
 
         </div> 
+        @endforeach
+
+        <livewire:invite-players :eventId="$event->id" />       
+        
     </div>    
     
     <div class="font-bold">Game Details</div>

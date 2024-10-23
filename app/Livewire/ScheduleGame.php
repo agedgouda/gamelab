@@ -41,8 +41,13 @@ class ScheduleGame extends Component
     public function addDateTime()
     {
         // Push a new date and time pair into the array
-        $this->dateTimes[] = ['date' => $this->date, 'time' => $this->time];
-
+        //$this->dateTimes[] = ['date' => $this->date, 'time' => $this->time];
+        $this->dateTimes[] = [
+            'date' => $this->date,
+            'time' => $this->time,
+            'available' => [],
+            'notAvailable' => [],
+        ];
         // Reset the input fields after adding
         $this->reset(['date', 'time']);
     }
@@ -125,6 +130,7 @@ class ScheduleGame extends Component
             foreach ($event->proposedDates as $date) {
                 $availabilitiesForDate = $date->availabilities;
                 [$available, $notAvailable] = collect($availabilitiesForDate)->partition(fn($availability) => $availability['is_available'] == 1);
+
                 $this->dateTimes[] = [
                     'date' => \Carbon\Carbon::parse($date->date_time)->format('Y-m-d'),
                     'time' => \Carbon\Carbon::parse($date->date_time)->format('H:i'),

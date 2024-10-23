@@ -20,5 +20,10 @@ class Event extends Model
     {
         return $this->hasMany(ProposedDate::class);
     }
+
+    public function invitees()
+    {
+        return $this->hasMany(Invitee::class);
+    }
 }
 

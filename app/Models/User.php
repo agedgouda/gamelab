@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserDateAvailability::class);
     }
+
+    public function invitees()
+    {
+        return $this->hasMany(Invitee::class, 'email', 'email');
+    }
 }
