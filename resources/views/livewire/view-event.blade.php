@@ -1,6 +1,6 @@
 <div>
     <x-primary-button class="pl-5 mb-2">
-        <a href="/events">View all upcomming games</a>
+        <a href="/events">View all upcoming games</a>
     </x-primary-button>
     <div>
         <span class="font-bold">Title:</span> {{ $event->title }} 
