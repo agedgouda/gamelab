@@ -61,6 +61,8 @@ class InvitePlayers extends Component
             $this->email = '';
     
             // Mark success
+            $invitee->message_status = 'Invitation Sent';
+            $invitee->save();
             $this->emailSent = true;
         } catch (\Exception $e) {
             // Mark failure

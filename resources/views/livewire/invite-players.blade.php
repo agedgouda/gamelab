@@ -35,10 +35,13 @@
                         <div class="error text-red-500">{{ $message }}</div>
                     @enderror
 
-                    <!-- Disable button while processing -->
-                    <x-primary-button class="px-4 py-2" wire:loading.attr="disabled" :disabled="$isProcessing">
-                        Send Invitation
-                    </x-primary-button>
+                    <!-- Conditionally display the button or "Processing..." text -->
+                    <div wire:loading.remove wire:target="sendInvite">
+                        <x-primary-button class="px-4 py-2">
+                            Send Invitation
+                        </x-primary-button>
+                    </div>
+                    <div wire:loading wire:target="sendInvite" class="text-gray-500">Processing...</div>
                 </div>
             </div>
 
