@@ -15,7 +15,7 @@ return new class extends Migration
             // Add the date_selected field with foreign key reference to proposed_dates table
             $table->unsignedBigInteger('date_selected_id')->nullable();
 
-            $table->foreign('date_selected')->references('id')->on('proposed_dates_id')->onDelete('set null');
+            $table->foreign('date_selected_id')->references('id')->on('proposed_dates')->onDelete('set null');
         });
     }
 
@@ -27,7 +27,7 @@ return new class extends Migration
         Schema::table('events', function (Blueprint $table) {
             // Drop the foreign key and column if rolling back
             $table->dropForeign(['date_selected_id']);
-            $table->dropColumn('date_selected');
+            $table->dropColumn('date_selected_id');
         });
     }
 };
