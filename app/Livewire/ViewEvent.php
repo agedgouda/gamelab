@@ -96,7 +96,7 @@ class ViewEvent extends Component
     public function setEventDate($selectedEventDayId) {
         $this->isProcessing = true;
         $this->event->date_selected_id = $selectedEventDayId;
-        //$this->event->save();
+        $this->event->save();
         $this->setDateUsers = $this->event->proposedDates->firstWhere('id', $selectedEventDayId)?->availabilities;
         $players = $this->setDateUsers->pluck('user');
         foreach($players as $player) {
