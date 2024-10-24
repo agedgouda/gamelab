@@ -12,6 +12,9 @@
         <span class="font-bold">Game:</span> {{ $event->game->name }}
     </div>
     <div>
+        <span class="font-bold">Principal Investigator:</span> {{ $event->user->name }}
+    </div>
+    <div>
         <div class="font-bold">Proposed Times</div>
         @foreach($event->proposedDates as $date)
         <div class="grid grid-cols-2 mb-2  {{ $loop->odd ? 'bg-gray-200' : '' }}">
