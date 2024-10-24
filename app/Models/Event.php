@@ -29,5 +29,10 @@ class Event extends Model
     {
         return $this->hasMany(Invitee::class);
     }
+
+    public function selectedDate()
+    {
+        return $this->belongsTo(ProposedDate::class, 'date_selected_id');
+    }
 }
 

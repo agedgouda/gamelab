@@ -22,7 +22,7 @@
                 <a href="{{ url('/events/'.$invitee->event->id)  }}">{{ url("/events/".$invitee->event->id) }}</a>
             </p>
         @else 
-            {{ $invitee->event->user->name }} invited you to play {{ $invitee->event->game->name }} at {{ $invitee->event->description }} 
+            {{ $invitee->event->user->name }} invited you to play {{ $invitee->event->game->name }} at {{ $invitee->event->location }} 
             on {{ \Carbon\Carbon::parse($invitee->event->proposedDates[0]->date_time)->format('m/d/Y') }} at {{ \Carbon\Carbon::parse($invitee->event->proposedDates[0]->date_time)->format('h:i A') }}.
             <p>
                 Click here to RSVP:<br>

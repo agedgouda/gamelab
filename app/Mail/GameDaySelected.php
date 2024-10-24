@@ -2,7 +2,8 @@
 
 namespace App\Mail;
 
-use App\Models\Invitee;
+use App\Models\Event;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -11,19 +12,22 @@ use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class InvitePlayer extends Mailable
+class GameDaySelected extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $invitee;
+    public $event;
+    public $user;
 
     /**
      * Create a new message instance.
      */
     public function __construct(
-        $invitee
+        $event,
+        $user,
     ) {
-        $this->invitee = $invitee;
+        $this->event = $event;
+        $this->user = $user;
     }
 
     /**
@@ -43,8 +47,11 @@ class InvitePlayer extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.invitation',
-            with: ['invitee' => $this->invitee,],
+            view: 'emails.game_day_selected',
+            with:[
+                    'event' => $this->event,
+                    'user' => $this->user,
+                ],
         );
     }
 

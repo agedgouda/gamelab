@@ -21,4 +21,9 @@ class ProposedDate extends Model
         return $this->hasMany(UserDateAvailability::class);
     }
 
+    public function selectedEvents()
+    {
+        return $this->hasMany(Event::class, 'date_selected_id');
+    }
+
 }

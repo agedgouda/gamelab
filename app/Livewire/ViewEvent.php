@@ -7,6 +7,8 @@ use Livewire\Component;
 use App\Services\BoardGameGeekService;
 use App\Models\Event;
 use App\Models\UserDateAvailability;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\GameDaySelected;
 
 
 class ViewEvent extends Component
@@ -16,6 +18,9 @@ class ViewEvent extends Component
     public $eventId;
     public $bggGameData;
     public $userAvailabilities = [];
+    public $activeTab = 'game-details';
+    public $setDateUsers = [];
+    public $isProcessing = false;
 
     protected $BggDataService;
 
@@ -88,7 +93,19 @@ class ViewEvent extends Component
 
     }
 
+    public function setEventDate($selectedEventDayId) {
+        $this->isProcessing = true;
+        $this->event->date_selected_id = $selectedEventDayId;
+        //$this->event->save();
+        $this->setDateUsers = $this->event->proposedDates->firstWhere('id', $selectedEventDayId)?->availabilities;
+        $players = $this->setDateUsers->pluck('user');
+        foreach($players as $player) {
+            \Log::info($player);
+            Mail::to($player->email)->send(new GameDaySelected($this->event, $player));
+        }
+        $this->isProcessing = false;
 
+    }
 
 
     public function render()

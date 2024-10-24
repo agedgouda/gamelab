@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Game;
 use App\Models\User;
 use App\Models\Event;
+use App\Models\Invitee;
 use App\Models\ProposedDate;
 
 class ScheduleGame extends Component
@@ -69,13 +70,21 @@ class ScheduleGame extends Component
             'user_id' => auth()->id(),
         ]);
 
-        \Log::info($this->location);
 
         foreach ($this->dateTimes as $dateTime) {
             $event->proposedDates()->create([
                 'date_time' => \Carbon\Carbon::parse($dateTime['date'] . ' ' . $dateTime['time']),
             ]);
         }
+
+        $invitee = Invitee::create([
+            'event_id' => $event->id,
+            'name' => $event->user->name,
+            'email' => $event->user->email,
+            'message_status' => 'Organizer'
+        ]);
+
+
         return redirect()->to('/schedule');
     }
 

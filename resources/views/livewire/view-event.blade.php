@@ -3,7 +3,7 @@
         <a href="/events">View all upcoming games</a>
     </x-primary-button>
     <div>
-        <span class="font-bold">Title:</span> {{ $event->title }} 
+        <span class="font-bold">Title:</span> {{ $event->title }}
     </div>   
     <div>
         <span class="font-bold">Location:</span> {{ $event->location }}
@@ -17,7 +17,7 @@
     <div>
         <div class="font-bold">Proposed Times</div>
         @foreach($event->proposedDates as $date)
-        <div class="grid grid-cols-2 mb-2  {{ $loop->odd ? 'bg-gray-200' : '' }}">
+        <div class="grid grid-cols-3 mb-2 pt-3 pb-3  {{ $loop->odd ? 'bg-gray-200' : '' }}">
             
             @php
                 // Get the availability for the current user
@@ -76,16 +76,52 @@
                         {{ $notAvailable->pluck('user_name')->implode(', ') }}
                     @endif
             </div>
+            <div class="flex">
+                @if(!$event->selectedDate)
+                    @if($event->user->id == auth()->id())
+                    <x-secondary-button wire:click="setEventDate({{ $date->id }})" class="pl-5 mb-2" wire:loading.remove>
+                        {{ __('Make Game Day') }}
+                    </x-secondary-button>
+
+                    <!-- Show "Processing..." text when the method is executing -->
+                    <span wire:loading class="pl-5 mb-2">Processing...</span>
+                    @endif
+                @elseif($event->selectedDate  && $event->selectedDate->id == $date->id)
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="green" class="h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                </svg>
+                Game Day
+                @endif
+            </div>
         
 
         </div> 
         @endforeach
+        <div class="flex mb-5">
+            <div class="hidden space-x-8 sm:-my-px sm:flex">
+                <x-nav-link @click="$wire.set('activeTab', 'game-details')" :active="$activeTab=='game-details'" class="cursor-pointer" wire:navigate>
+                    {{ __('Game Details') }}
+                </x-nav-link>
+            </div>
+            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <x-nav-link @click="$wire.set('activeTab', 'invitees')" :active="$activeTab == 'invitees'" class="cursor-pointer" wire:navigate>
+                    {{ __('Invitees') }}
+                </x-nav-link>
+            </div>
+        </div>
 
-        <livewire:invite-players :eventId="$event->id" />       
+
+
+
+
+
+            
         
-    </div>    
+    </div>  
+    @if($activeTab == 'invitees')
+        <livewire:invite-players :eventId="$event->id" />   
+    @elseif($activeTab == 'game-details')  
     
-    <div class="font-bold">Game Details</div>
     <div class="grid grid-cols-2 mb-2">
         <div>
             <img src="{{ $bggGameData['thumbnail'] }}" alt="{{ $bggGameData['name'][0] }} Thumbnail" class="w-32 h-auto mt-2">
@@ -102,4 +138,5 @@
     <div>
         {!! $bggGameData['description'] !!}
     </div>
+    @endif
 </div>

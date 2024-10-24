@@ -1,7 +1,4 @@
 <div class="mb-5">
-    <div class="font-bold">
-            Invitees 
-    </div>
     <div>
         @foreach($invitees as $invitee)
         <div class="grid grid-cols-3 {{ $loop->odd ? 'bg-gray-200' : '' }} py-4">
