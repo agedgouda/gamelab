@@ -15,15 +15,14 @@ class ScheduleGame extends Component
     public $search = ''; 
     public $title = ''; 
     public $description = ''; 
+    public $location = ''; 
     public $dateTimes = [];
     public $date;
     public $time;
     public $events = [];
     public $isEditMode = false;
     public $eventId = '';
-
-
-    
+   
 
     public function updatedSearch()
     {
@@ -60,12 +59,17 @@ class ScheduleGame extends Component
     }
 
     public function createEvent() {
-        
+
+       
         $event = Event::create([
             'title' => $this->title,
             'description' => $this->description,
+            'location' => $this->location,
             'game_id' => $this->game->id,
+            'user_id' => auth()->id(),
         ]);
+
+        \Log::info($this->location);
 
         foreach ($this->dateTimes as $dateTime) {
             $event->proposedDates()->create([
@@ -84,6 +88,7 @@ class ScheduleGame extends Component
             $event->update([
                 'title' => $this->title,
                 'description' => $this->description,
+                'location' => $this->location,
             ]);
     
             // Get all existing proposed dates for the event
@@ -152,6 +157,7 @@ class ScheduleGame extends Component
 
     public function render()
     {   
+        $this->userId = auth()->id(); 
         $this->events = Event::with(['game', 'proposedDates'])
         ->whereHas('proposedDates', function ($query) {
             $query->where('date_time', '>=', now());

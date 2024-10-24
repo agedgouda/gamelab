@@ -12,10 +12,18 @@
             <div class="mt-4 mb-5 col-span-3">
                 <x-input-label for="location" :value="__('Location')" />
                 <div class="flex items-center mt-1 mr-5">
-                    <x-text-input wire:model="description" id="description" class="w-full" type="text" name="description"/>
+                    <x-text-input wire:model="location" id="location" class="w-full" type="text" name="location"/>
                 </div>
-                <x-input-error :messages="$errors->get('form.description')" class="mt-2" />
+                <x-input-error :messages="$errors->get('form.location')" class="mt-2" />
             </div>
+        </div>
+
+        <div>
+            <x-input-label for="description" :value="__('Description')" />
+            <div class="flex items-center mt-1 mr-5">
+                <x-text-input wire:model="description" id="description" class="w-full" type="text" name="description"/>
+            </div>
+            <x-input-error :messages="$errors->get('form.description')" class="mt-2" />
         </div>
         
         @if(!$isEditMode)
@@ -138,12 +146,15 @@
     <div class="mt-5 font-bold">
         Upcoming Games
     </div>
-    <div class="grid grid-cols-7">
+    <div class="grid grid-cols-8">
         <div class="font-semibold">
             Title
         </div>
         <div class="font-semibold">
             Location
+        </div>
+        <div class="font-semibold">
+            Description
         </div>
         <div class="font-semibold">
             Game
@@ -171,6 +182,9 @@
         @foreach($events as $event)
         <div class="align-middle">
             {{ $event->title}}
+        </div>
+        <div class="align-middle">
+            {{ $event->location}}
         </div>
         <div class="align-middle">
             {{ $event->description}}
