@@ -26,11 +26,10 @@
                 [$available, $notAvailable] = collect($availabilitiesForDate)->partition(fn($availability) => $availability['is_available'] == 1);
             @endphp
             
-            <div>
+            <div class="flex items-center ml-5">
                 {{ \Carbon\Carbon::parse($date->date_time)->format('m/d/Y') }} at {{ \Carbon\Carbon::parse($date->date_time)->format('h:i A') }}
             </div>
-            <div x-data="{ selected: @if($currentUserAvailability && !is_null($currentUserAvailability->is_available)) {{ $currentUserAvailability->is_available }} @else null @endif, hover: null }" class="flex space-x-2">
-
+            <div x-data="{ selected: @if($currentUserAvailability && !is_null($currentUserAvailability->is_available)) {{ $currentUserAvailability->is_available }} @else null @endif, hover: null }" class="flex space-x-2 flex items-center ml-5">
                 <!-- First SVG -->
                 <svg 
                     xmlns="http://www.w3.org/2000/svg" 
@@ -55,7 +54,7 @@
                         No players yet
                     @endif
                 <!-- Second SVG -->
-                <br /><svg 
+                <svg 
                     xmlns="http://www.w3.org/2000/svg" 
                     fill="none" 
                     viewBox="0 0 24 24" 
@@ -76,10 +75,10 @@
                         {{ $notAvailable->pluck('user_name')->implode(', ') }}
                     @endif
             </div>
-            <div class="flex">
+            <div class="flex items-center ml-5">
                 @if(!$event->selectedDate)
                     @if($event->user->id == auth()->id())
-                    <x-secondary-button wire:click="setEventDate({{ $date->id }})" class="pl-5 mb-2" wire:loading.remove>
+                    <x-secondary-button wire:click="setEventDate({{ $date->id }})" class="pl-5" wire:loading.remove>
                         {{ __('Make Game Day') }}
                     </x-secondary-button>
 
