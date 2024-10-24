@@ -94,15 +94,6 @@ class ScheduleGame extends Component
                 return $dateTime['date'] . ' ' . $dateTime['time'];
             }, $this->dateTimes);
     
-            // Delete dates that were removed from the form
-            foreach ($existingDates as $existingDate) {
-                $formattedExistingDate = \Carbon\Carbon::parse($existingDate->date_time)->format('Y-m-d H:i:s');
-                if (!in_array($formattedExistingDate, $updatedDates)) {
-                    // If the date is not in the form, delete it from the database
-                    $existingDate->delete();
-                }
-            }
-    
             // Update or create new proposed dates from the form
             foreach ($this->dateTimes as $dateTime) {
                 ProposedDate::updateOrCreate(
