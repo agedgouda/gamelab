@@ -6,7 +6,7 @@
         <span class="font-bold">Title:</span> {{ $event->title }} 
     </div>   
     <div>
-        <span class="font-bold">Location:</span> {{ $event->description }}
+        <span class="font-bold">Location:</span> {{ $event->location }}
     </div>    
     <div>
         <span class="font-bold">Game:</span> {{ $event->game->name }}

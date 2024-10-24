@@ -11,7 +11,7 @@
     </p>
     <p>
         @if(count($invitee->event->proposedDates) > 1)
-            You have been invited to play {{ $invitee->event->game->name }} at {{ $invitee->event->description }} one of the dates below:
+            You have been invited to play {{ $invitee->event->game->name }} at {{ $invitee->event->location }} one of the dates below:
             @foreach($invitee->event->proposedDates as $date)
                 <div style="width: 45%; text-align: center; {{ $loop->odd ? 'background-color: #e5e7eb;' : '' }}">
                         {{ \Carbon\Carbon::parse($date->date_time)->format('m/d/Y') }} at {{ \Carbon\Carbon::parse($date->date_time)->format('h:i A') }}

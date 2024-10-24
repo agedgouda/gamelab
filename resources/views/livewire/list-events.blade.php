@@ -39,7 +39,7 @@
             {{ $event->game->name }}
         </div>
         <div class="align-middle">
-            {{ $event->description }}
+            {{ $event->location }}
         </div>
         <div class="flex justify-center">
             {{count($event->invitees)}}
