@@ -16,7 +16,17 @@
     </div>
     <div>
         <div class="font-bold">Proposed Times</div>
-        @foreach($event->proposedDates as $date)
+        @php
+                if ($event->date_selected_id) {
+                    // Filter to get only the selected date if it exists
+                    $datesToDisplay = $event->proposedDates->where('id', $event->date_selected_id);
+                    
+                } else {
+                    // Otherwise, get all dates
+                    $datesToDisplay = $event->proposedDates;
+                }
+            @endphp
+        @foreach($datesToDisplay as $date)
         <div class="grid grid-cols-3 mb-2 pt-3 pb-3  {{ $loop->odd ? 'bg-gray-200' : '' }}">
             
             @php

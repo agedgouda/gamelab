@@ -9,7 +9,15 @@
                 <span class="mr-2">{{ $invitee->name }}</span>
             </div>
             <div class="flex items-center pl-3">{{ $invitee->email }}</div>
-            <div class="flex justify-center">{{ $invitee->message_status }}</div>
+            @if($invitee->message_status == 'not sent')
+                <div  class="flex justify-center" wire:loading.remove wire:click="sendInvite({{ $eventId }}, '{{ $invitee->name }}', '{{ $invitee->email }}')">
+                    <x-danger-button class="px-4 py-2">
+                        Resend Invitation
+                    </x-danger-button>
+                </div>
+            @else
+                <div class="flex justify-center">{{ $invitee->message_status }}</div>
+            @endif
         </div>
         @endforeach
         @if(auth()->check())

@@ -20,9 +20,14 @@ class InvitePlayers extends Component
     public $isProcessing = false;
     public $emailSent = null;
     
-    public function sendInvite($eventId)
+    public function sendInvite($eventId,$name = null, $email = null)
     {
         $this->isProcessing = true;
+
+        $this->name = $name ?? $this->name; 
+        $this->email = $email ?? $this->email; 
+
+
         $this->resetErrorBag();
     
         try {
@@ -36,22 +41,25 @@ class InvitePlayers extends Component
             ])->validate();
     
             // Check if the email has already been invited for the given eventId
-            $existingInvite = Invitee::where('event_id', $eventId)
+            $invitee = Invitee::where('event_id', $eventId)
                 ->where('email', $this->email)
                 ->first();
     
-            if ($existingInvite) {
-                $this->addError('invite', 'That person has already been invited.');
-                $this->isProcessing = false;
-                return; // Stop further execution
+            if ($invitee) {
+                //if it has been successfully sent stop the process
+                if ($invitee->message_status !='not sent') {
+                    $this->addError('invite', 'That person has already been invited.');
+                    $this->isProcessing = false;
+                    return; // Stop further execution
+                }
+            } else {  
+                // Create the Invitee record if it doesn't exist
+                $invitee = Invitee::create([
+                    'event_id' => $eventId,
+                    'name' => $validatedData['name'],
+                    'email' => $validatedData['email'],
+                ]);
             }
-    
-            // Create the Invitee record
-            $invitee = Invitee::create([
-                'event_id' => $eventId,
-                'name' => $validatedData['name'],
-                'email' => $validatedData['email'],
-            ]);
     
             // Send the email
             Mail::to($validatedData['email'])->send(new InvitePlayer($invitee));

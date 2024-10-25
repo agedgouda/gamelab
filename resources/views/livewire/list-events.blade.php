@@ -5,9 +5,6 @@
     @if($events)
     <div class="grid grid-cols-7">
         <div class="font-semibold">
-            Title
-        </div>
-        <div class="font-semibold">
             Game
         </div>
         <div class="font-semibold">
@@ -29,12 +26,12 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M7.498 15.25H4.372c-1.026 0-1.945-.694-2.054-1.715a12.137 12.137 0 0 1-.068-1.285c0-2.848.992-5.464 2.649-7.521C5.287 4.247 5.886 4 6.504 4h4.016a4.5 4.5 0 0 1 1.423.23l3.114 1.04a4.5 4.5 0 0 0 1.423.23h1.294M7.498 15.25c.618 0 .991.724.725 1.282A7.471 7.471 0 0 0 7.5 19.75 2.25 2.25 0 0 0 9.75 22a.75.75 0 0 0 .75-.75v-.633c0-.573.11-1.14.322-1.672.304-.76.93-1.33 1.653-1.715a9.04 9.04 0 0 0 2.86-2.4c.498-.634 1.226-1.08 2.032-1.08h.384m-10.253 1.5H9.7m8.075-9.75c.01.05.027.1.05.148.593 1.2.925 2.55.925 3.977 0 1.487-.36 2.89-.999 4.125m.023-8.25c-.076-.365.183-.75.575-.75h.908c.889 0 1.713.518 1.972 1.368.339 1.11.521 2.287.521 3.507 0 1.553-.295 3.036-.831 4.398-.306.774-1.086 1.227-1.918 1.227h-1.053c-.472 0-.745-.556-.5-.96a8.95 8.95 0 0 0 .303-.54" />
             </svg>
         </div>
+        <div class="font-semibold flex justify-center">
+
+        </div>
     </div>
     @foreach($events as $event)
     <div class="grid grid-cols-7 hover:bg-gray-100 cursor-pointer {{ $loop->odd ? 'bg-gray-200' : '' }}" @click="window.location.href = '/events/{{ $event->id }}'">
-        <div class="align-middle">
-            {{ $event->title }}
-        </div>
         <div class="align-middle">
             {{ $event->game->name }}
         </div>
@@ -44,21 +41,40 @@
         <div class="flex justify-center">
             {{count($event->invitees)}}
         </div>
-        <div class="align-middle col-span-3">
-            @foreach($event->proposedDates as $date)
+        <div class="align-middle col-span-4">
+            @php
+                if ($event->date_selected_id) {
+                    // Filter to get only the selected date if it exists
+                    $datesToDisplay = $event->proposedDates->where('id', $event->date_selected_id);
+                    
+                } else {
+                    // Otherwise, get all dates
+                    $datesToDisplay = $event->proposedDates;
+                }
+            @endphp
+            @foreach($datesToDisplay as $date)
                 @php
                 $availabilitiesForDate = $date->availabilities;
                 [$available, $notAvailable] = collect($availabilitiesForDate)->partition(fn($availability) => $availability['is_available'] == 1);
                 @endphp
-                <div class="grid grid-cols-3">
+                <div class="grid grid-cols-4">
                     <div>
                     {{ \Carbon\Carbon::parse($date->date_time)->format('h:i A') }} {{ \Carbon\Carbon::parse($date->date_time)->format('m/d/Y') }}<br>
                     </div>
                     <div class="flex justify-center">{{ count($available)}}</div>
-                    <div class="flex justify-center">{{ count($notAvailable)}}</div>
+                    <div class="flex justify-center">{{ count($notAvailable)}}</div>                   
+                    <div class="flex justify-center">
+                        @if($date->id  == $event->date_selected_id)
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="green" class="h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                        </svg>
+                        Game Day
+                        @endif
+                    </div>
                 </div>
             @endforeach
         </div>
+        
     </div>
     @endforeach
 

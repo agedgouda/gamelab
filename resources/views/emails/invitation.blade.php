@@ -10,7 +10,17 @@
    
     </p>
     <p>
-        @if(count($invitee->event->proposedDates) > 1)
+        @php
+            if ($invitee->event->date_selected_id) {
+                // Filter to get only the selected date if it exists
+                $datesToDisplay = $invitee->event->proposedDates->where('id', $invitee->event->date_selected_id);
+                
+            } else {
+                // Otherwise, get all dates
+                $datesToDisplay = $invitee->event->proposedDates;
+            }
+        @endphp
+        @if(count($datesToDisplay) > 1)
             {{ $invitee->event->user->name }} invited you to play {{ $invitee->event->game->name }} at {{ $invitee->event->location }} one of the dates below:
             @foreach($invitee->event->proposedDates as $date)
                 <div style="width: 45%; text-align: center; {{ $loop->odd ? 'background-color: #e5e7eb;' : '' }}">
