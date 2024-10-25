@@ -1,7 +1,7 @@
 <div>
 
     <p style="text-align: center;">
-        <img src="{{ url('/img/logoemail.png')}}">
+        <img src="{{ url('/img/logoemail_70s.png')}}">
     </p>
     
     <p>Dear {{ $invitee->name }},</p>

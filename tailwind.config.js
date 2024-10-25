@@ -16,6 +16,7 @@ export default {
       extend: {
         fontFamily: {
           sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+    data70: ['Data70', ...defaultTheme.fontFamily.sans],
         },
       },
     },

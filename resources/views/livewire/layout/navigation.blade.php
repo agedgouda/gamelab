@@ -23,8 +23,11 @@ new class extends Component
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('events') }}" wire:navigate>
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    <a class="flex" href="{{ route('events') }}" wire:navigate>
+                        <x-application-logo class="block h-9 w-14 fill-current text-gray-800" />
+                        <h2 class="font-semibold text-xl text-gray-800 leading-tight font-data70 mt-1 tracking-widest">
+                            Gamelab
+                        </h2>
                     </a>
                 </div>
 

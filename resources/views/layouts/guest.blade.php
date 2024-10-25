@@ -16,9 +16,12 @@
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <a href="/" wire:navigate>
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+            <div class="flex justify-center">
+                <a href="/" class="text-center" wire:navigate>
+                    <x-application-logo class="w-20 h-20 fill-current text-gray-500 mx-auto" />
+                    <h2 class="font-semibold text-3xl text-gray-800 leading-tight font-data70 mt-1 tracking-widest">
+                            Gamelab
+                        </h2>
                 </a>
             </div>
 
