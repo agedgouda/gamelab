@@ -15,4 +15,9 @@ class Game extends Model
     {
         return $this->morphMany(Poll::class, 'pollable'); 
     }
+
+    public function posts()
+    {
+        return $this->morphMany(Poll::class, 'pollable'); 
+    }
 }

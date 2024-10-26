@@ -17,15 +17,15 @@
     <div>
         <div class="font-bold">Proposed Times</div>
         @php
-                if ($event->date_selected_id) {
-                    // Filter to get only the selected date if it exists
-                    $datesToDisplay = $event->proposedDates->where('id', $event->date_selected_id);
-                    
-                } else {
-                    // Otherwise, get all dates
-                    $datesToDisplay = $event->proposedDates;
-                }
-            @endphp
+            if ($event->date_selected_id) {
+                // Filter to get only the selected date if it exists
+                $datesToDisplay = $event->proposedDates->where('id', $event->date_selected_id);
+                
+            } else {
+                // Otherwise, get all dates
+                $datesToDisplay = $event->proposedDates;
+            }
+        @endphp
         @foreach($datesToDisplay as $date)
         <div class="grid grid-cols-3 mb-2 pt-3 pb-3  {{ $loop->odd ? 'bg-gray-200' : '' }}">
             
@@ -117,17 +117,17 @@
                     {{ __('Invitees') }}
                 </x-nav-link>
             </div>
-        </div>
-
-
-
-
-
-
-            
-        
+            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <x-nav-link @click="$wire.set('activeTab', 'posts')" :active="$activeTab == 'posts'" class="cursor-pointer" wire:navigate>
+                    {{ __('Posts') }}
+                </x-nav-link>
+            </div>
+        </div>        
     </div>  
-    @if($activeTab == 'invitees')
+
+    @if($activeTab == 'posts')
+        <livewire:post-component :postableId="$event->id" :postableType="'event'" />
+    @elseif($activeTab == 'invitees')
         <livewire:invite-players :eventId="$event->id" />   
     @elseif($activeTab == 'game-details')  
     

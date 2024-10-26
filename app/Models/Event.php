@@ -34,5 +34,10 @@ class Event extends Model
     {
         return $this->belongsTo(ProposedDate::class, 'date_selected_id');
     }
+
+    public function posts()
+    {
+        return $this->morphMany(Poll::class, 'pollable'); 
+    }
 }
 
