@@ -16,6 +16,7 @@ class Post extends Model
         'parent_post_id',
         'postable_type',
         'postable_id',
+        'title',
 
     ];
 

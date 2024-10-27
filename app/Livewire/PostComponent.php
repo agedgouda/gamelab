@@ -12,11 +12,35 @@ class PostComponent extends Component
     public $posts;
     public $content;
     public $type;
+    public $title;
     public $postId; // For editing existing posts
     public $isEditMode = false;
+    public $showDetails = false;
+    public $selectedPostId;
     public $addPost = false;
     public $postableType;
     public $postableId;
+    public $selectedType = 'After Action Report';
+    public $filteredPosts = [];
+
+    public function filterByType($type)
+    {
+        $this->selectedType = $type;
+        $this->showDetails = false; // Reset any post details view
+        $this->filteredPosts = Post::where('type', $type)->get();
+        $this->selectedPostId =  null;
+    }
+
+    public function setSelectedPostId($selectedPostId){
+        $this->selectedPostId = $selectedPostId;
+    }
+
+    public function getFilteredPostsProperty()
+    {
+        return $this->selectedType
+            ? Post::where('type', $this->selectedType)->get()
+            : Post::all();
+    }
 
     protected $rules = [
         'content' => 'required|string',
@@ -25,7 +49,7 @@ class PostComponent extends Component
 
     public function mount()
     {
-        $this->posts = Post::all(); // Load all posts initially
+        $this->filteredPosts = Post::all(); // Load all posts initially
     }
 
     public function createPost()
