@@ -28,7 +28,10 @@ class PostComponent extends Component
     {
         $this->selectedType = $type;
         $this->showDetails = false; // Reset any post details view
-        $this->filteredPosts = Post::where('type', $type)->get();
+        $this->filteredPosts = Post::where('type', $type)
+        ->where('postable_type', $this->postableClass)
+        ->where('postable_id', $this->postableId)
+        ->get();
         $this->selectedPostId = null;
     }
 
@@ -41,10 +44,10 @@ class PostComponent extends Component
         //$this->postableClass = $this->postableType === 'game' ? Game::class : Event::class;
         return $this->selectedType
                 ? Post::where('type', $this->selectedType)
-                    ->where('postable_class', $this->postableClass)
+                    ->where('postable_type', $this->postableClass)
                     ->where('postable_id', $this->postableId)
                     ->get()
-                : Post::where('postable_class', $this->postableClass)
+                : Post::where('postable_type', $this->postableClass)
                     ->where('postable_id', $this->postableId)
                     ->get();
     }
