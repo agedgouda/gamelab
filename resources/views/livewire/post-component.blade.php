@@ -30,14 +30,16 @@
                         wire:click="setSelectedPostId({{ $post->id }})" 
                         wire:loading.class="cursor-not-allowed"
                         wire:target="setSelectedPostId"
-                        class="cursor-pointer font-medium mt-2 ml-2 {{ $selectedType === $post->type ? '' : 'hidden' }}"
+                        class="cursor-pointer {{ $loop->odd ? 'bg-gray-200 hover:text-white' : '' }} font-medium pt-2 pb-1 pl-1 ml-2 {{ $selectedType === $post->type ? '' : 'hidden' }}"
                     >
-                        {{ $post->title }}
+                        {{ $post->title }} 
+                        <div class="text-xs italic text-gray-500">{{ $post->user->name }}</div>
                     </div>
                     @elseif($selectedPostId === $post->id)
                     <!-- Details: Show only if this post is selected -->
                     <div class="mt-2 ml-2">
                         <div class="font-medium">{{ $post->title }}</div>
+                        <div class="text-xs italic text-gray-500">{{ $post->user->name }}</div>
                         <div>{{ $post->content }}</div>
                         @if(auth()->id() == $post->user_id)
                         <button wire:click="editPost({{ $post->id }})">Edit</button>

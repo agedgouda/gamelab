@@ -22,13 +22,14 @@ class PostComponent extends Component
     public $postableId;
     public $selectedType = 'After Action Report';
     public $filteredPosts = [];
+    public $postableClass;
 
     public function filterByType($type)
     {
         $this->selectedType = $type;
         $this->showDetails = false; // Reset any post details view
         $this->filteredPosts = Post::where('type', $type)->get();
-        $this->selectedPostId =  null;
+        $this->selectedPostId = null;
     }
 
     public function setSelectedPostId($selectedPostId){
@@ -37,9 +38,15 @@ class PostComponent extends Component
 
     public function getFilteredPostsProperty()
     {
+        //$this->postableClass = $this->postableType === 'game' ? Game::class : Event::class;
         return $this->selectedType
-            ? Post::where('type', $this->selectedType)->get()
-            : Post::all();
+                ? Post::where('type', $this->selectedType)
+                    ->where('postable_class', $this->postableClass)
+                    ->where('postable_id', $this->postableId)
+                    ->get()
+                : Post::where('postable_class', $this->postableClass)
+                    ->where('postable_id', $this->postableId)
+                    ->get();
     }
 
     protected $rules = [
@@ -49,7 +56,10 @@ class PostComponent extends Component
 
     public function mount()
     {
-        $this->filteredPosts = Post::all(); // Load all posts initially
+        $this->postableClass = $this->postableType === 'game' ? Game::class : Event::class;
+        $this->filteredPosts = Post::where('postable_type', $this->postableClass)
+                ->where('postable_id', $this->postableId)
+                ->get();
     }
 
     public function createPost()
@@ -66,6 +76,7 @@ class PostComponent extends Component
             'type' => $this->type,
             'postable_type' => $this->postableClass,
             'postable_id' => $this->postableId,
+            'title' => $this->title,
         ]);
 
         // Reset form fields
