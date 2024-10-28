@@ -28,6 +28,7 @@ class PostComponent extends Component
     {
         $this->selectedType = $type;
         $this->showDetails = false; // Reset any post details view
+        $this->addPost = false;
         $this->filteredPosts = Post::where('type', $type)
         ->where('postable_type', $this->postableClass)
         ->where('postable_id', $this->postableId)
@@ -68,10 +69,8 @@ class PostComponent extends Component
     public function createPost()
     {
         $this->validate();
-        \Log::info(json_encode($this));
-        $this->postableClass = $this->postableType === 'game' ? Game::class : Event::class;
 
-        \Log::info(json_encode($this));
+        $this->postableClass = $this->postableType === 'game' ? Game::class : Event::class;
 
         Post::create([
             'user_id' => auth()->id(), // Assuming the user is authenticated
@@ -82,17 +81,22 @@ class PostComponent extends Component
             'title' => $this->title,
         ]);
 
+        $this->filterByType($this->type);
+
         // Reset form fields
-        $this->reset(['content', 'type']);
-        $this->posts = Post::all(); // Refresh the posts list
+        $this->reset(['content', 'type','title']);
+
+        $this->addPost = false;
     }
 
     public function editPost($postId)
     {
         $post = Post::find($postId);
         $this->postId = $post->id;
+        $this->title = $post->title;
         $this->content = $post->content;
         $this->type = $post->type;
+        $this->addPost = true;
     }
 
     public function updatePost()
