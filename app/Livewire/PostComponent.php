@@ -110,8 +110,12 @@ class PostComponent extends Component
         ]);
 
         // Reset form fields
-        $this->reset(['content', 'type']);
-        $this->posts = Post::all(); // Refresh the posts list
+        $this->filterByType($this->type);
+
+        // Reset form fields
+        $this->reset(['content', 'type','title']);
+
+        $this->addPost = false;
     }
 
     public function deletePost($postId)

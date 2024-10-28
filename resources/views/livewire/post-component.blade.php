@@ -115,12 +115,8 @@
                         window.editor = editor;
 
                         document.querySelector("#submit").addEventListener("click", () => {
-
                             $wire.set('content',  editor.getData());
-
-
-
-
+                            console.log("feerer")
                         });
 
 
