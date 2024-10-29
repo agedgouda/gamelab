@@ -54,48 +54,56 @@ class PostComponent extends Component
     }
 
     protected $rules = [
+        'title' => 'required|string',
         'content' => 'required|string',
-        'type' => 'required|in:Review,Video,After Action Report,Strategy Guide', // Add other types if necessary
     ];
 
     public function mount()
     {
         $this->postableClass = $this->postableType === 'game' ? Game::class : Event::class;
-        $this->filteredPosts = Post::where('postable_type', $this->postableClass)
-                ->where('postable_id', $this->postableId)
-                ->get();
+        $this->filterByType($this->selectedType);
+        $this->reset(['title', 'content']);
+        session()->forget('errors');
     }
 
     public function createPost()
     {
-        $this->validate();
+        
+        \Log::info(['title' => $this->title, 'content' => $this->content]);
+        try {
+            $this->validate();
+            
+            // Continue with form submission code here
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->dispatch('validationFailed'); // Emit a custom event
+            throw $e; // Rethrow the exception so errors are handled normally
+        }
 
         $this->postableClass = $this->postableType === 'game' ? Game::class : Event::class;
 
         Post::create([
             'user_id' => auth()->id(), // Assuming the user is authenticated
             'content' => $this->content,
-            'type' => $this->type,
+            'type' => $this->selectedType,
             'postable_type' => $this->postableClass,
             'postable_id' => $this->postableId,
             'title' => $this->title,
         ]);
 
-        $this->filterByType($this->type);
+        $this->filterByType($this->selectedType);
 
         // Reset form fields
-        $this->reset(['content', 'type','title']);
-
+        $this->reset(['content','title']);
         $this->addPost = false;
     }
 
     public function editPost($postId)
     {
+
         $post = Post::find($postId);
         $this->postId = $post->id;
         $this->title = $post->title;
         $this->content = $post->content;
-        $this->type = $post->type;
         $this->addPost = true;
     }
 
@@ -106,11 +114,11 @@ class PostComponent extends Component
         $post = Post::find($this->postId);
         $post->update([
             'content' => $this->content,
-            'type' => $this->type,
+            'type' => $this->selectedType,
         ]);
 
         // Reset form fields
-        $this->filterByType($this->type);
+        $this->filterByType($this->selectedType);
 
         // Reset form fields
         $this->reset(['content', 'type','title']);
