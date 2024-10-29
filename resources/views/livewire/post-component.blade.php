@@ -57,9 +57,9 @@
                 </div>
             </form>        
         @else
-            <ul>
+
                 @foreach($this->filteredPosts as $post)
-                    <li>         
+                    <div>         
                         <!-- Title: Show if the selected type matches and no post is selected -->
                         @if(!$selectedPostId)
                         <div 
@@ -83,9 +83,9 @@
                             <button wire:click="setSelectedPostId(false)">Back</button>
                         </div>
                         @endif
-                    </li>
+</div>
                 @endforeach
-            </ul>
+ 
             @endif
 
             @script
