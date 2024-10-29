@@ -78,9 +78,9 @@
                             <div class="text-xs italic text-gray-500">{{ $post->user->name }}</div>
                             <div>{!! $post->content !!}</div>
                             @if(auth()->id() == $post->user_id)
-                            <button wire:click="editPost({{ $post->id }})">Edit</button>
+                            <x-primary-button wire:click="editPost({{ $post->id }})">Edit</x-primary-button >
                             @endif
-                            <button wire:click="setSelectedPostId(false)">Back</button>
+                            <x-danger-button  wire:click="setSelectedPostId(false)">Back</x-danger-button >
                         </div>
                         @endif
 </div>
