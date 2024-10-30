@@ -38,6 +38,11 @@ class ScheduleGame extends Component
         $this->search = ''; // Clear the search box
         $this->games = []; // Clear the suggestions
     }
+    
+    public function removeGame() {
+        $this->game = '';
+    }
+
     public function addDateTime()
     {
         // Push a new date and time pair into the array
@@ -158,6 +163,7 @@ class ScheduleGame extends Component
         $this->time = '';
         $this->dateTimes = [];
         $this->eventId = '';
+        $this->game = '';
 
         // Reset the editing mode
         $this->isEditMode = false;

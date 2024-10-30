@@ -27,38 +27,45 @@
         </div>
         
         @if(!$isEditMode)
-        <div class="mt-4 mb-5">
-            <input
-                type="text"
-                wire:model.live="search"
-                placeholder="Search for a game..."
-                class="block w-full p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
-            />
+            @if(!$game)
+            <div class="mt-4 mb-5">
+                <input
+                    type="text"
+                    wire:model.live="search"
+                    placeholder="Search for a game..."
+                    class="block w-full p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
+                />
 
-            @if(count($games) > 0)
-                <ul class="absolute z-10 w-full bg-white border border-gray-300 rounded-lg mt-1">
-                    @foreach($games as $game)
-                        <li
-                            wire:click="selectGame({{ $game->id }})"
-                            class="cursor-pointer p-2 hover:bg-blue-100"
-                        >
-                            {{ $game->name }}
-                        </li>
-                    @endforeach
-                </ul>
+                @if(count($games) > 0)
+                    <ul class="absolute z-10 w-full bg-white border border-gray-300 rounded-lg mt-1">
+                        @foreach($games as $game)
+                            <li
+                                wire:click="selectGame({{ $game->id }})"
+                                class="cursor-pointer p-2 hover:bg-blue-100"
+                            >
+                                {{ $game->name }}
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+            </div>
             @endif
-        </div>
         @endif
         
-        <p class="mt-4">Game: 
+        <p class="mt-4 flex items-center">
             @if($game)
-                {{ $game->name }}
-            @else
-                No game selected
+                Game: {{ $game->name }}
+                <x-danger-button type="button" wire:click="removeGame()"  class="align-middle h-2 ml-2">
+                    {{ __('Change') }}
+                </x-danger-button> 
             @endif
         </p>
 
         <!-- Add Date and Time Inputs -->
+        <div class="mt-5">
+            <livewire:calendar/>   
+        </div>
+        <!--
         <div class="grid grid-cols-3">
             <div class="mb-5">
                 <x-input-label for="date" :value="__('Date')" />
@@ -80,6 +87,7 @@
                 </x-secondary-button>
             </div>
         </div>
+-->
 
         <!-- Display Added Dates and Times -->
 
