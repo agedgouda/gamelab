@@ -6,6 +6,7 @@
                         <div class="w-full h-full" >
                             <div class="w-full h-full p-2 flex flex-col text-center border border-b-0">
                                 {{ \Carbon\Carbon::create()->month($month)->format('F');}} {{ $year}}
+                                </br>{{ json_encode($dateTimesCollection)}}
                             </div>
                         </div>
                     </div>
@@ -49,7 +50,10 @@
                         @foreach($currentWeekDays as $day)
                         <div class="w-full h-full" >
 
-                            <div class="w-full h-36 p-2 flex border flex-col {{ $day ? $day->isToday() ? 'bg-yellow-100' : ' bg-white ' : 'bg-gray-100'  }} ">
+                            <div 
+                                onclick="Livewire.dispatch('openModal', { component: 'calendar-day' , arguments: { day: '{{$day}}' }})"
+                                class="w-full cursor-pointer h-36 p-2 flex border flex-col {{ $day ? $day->isToday() ? 'bg-yellow-100' : ' bg-white ' : 'bg-gray-100'  }} "
+                                >
                                         
                                 <div class="flex items-center">
                                     <p class="text-sm ">
@@ -83,11 +87,4 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
 </div>

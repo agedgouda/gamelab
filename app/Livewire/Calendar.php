@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Carbon\Carbon;
+use Livewire\Attributes\On; 
 
 class Calendar extends Component
 {
@@ -14,8 +15,10 @@ class Calendar extends Component
     public $currentWeekDays = [];
     public $hours = [];
     public $selectedTimes = [];
+    public $selectedDateTimes = []; // = ["2024-10-30 00:00:00 2:00 PM","2024-10-30 00:00:00 5:30 PM","2024-11-01 00:00:00 12:30 PM","2024-11-01 00:00:00 6:00 PM"];
     public $dateTimes = [];
     public $events = [];
+    public $dateTimesCollection = [];
     
     public function mount()
     {
@@ -63,7 +66,25 @@ class Calendar extends Component
         $this->currentWeekStart = Carbon::parse($this->currentWeekStart)->addWeek()->toDateString();
         $this->generateCalendar();
     }
+    
+    #[On('add-datetimes')] 
+    public function updateDateTimes($dateTimes)
+    {
+        $this->selectedDateTimes = array_unique(array_merge($this->selectedDateTimes, $dateTimes));
 
+        $this->dateTimesCollection = collect($this->selectedDateTimes)
+        ->map(function ($dateTime) {
+            // Separate the date and time parts
+            [$date, $time] = explode(' ', $dateTime, 2);
+            return ['date' => $date, 'time' => $time];
+        })
+        ->groupBy('date')
+        ->map(function ($items) {
+            // Extract only the times for each date
+            return $items->pluck('time')->all();
+        })
+        ->toArray();
+    }
 
 
     

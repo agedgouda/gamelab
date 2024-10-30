@@ -46,7 +46,6 @@ class ScheduleGame extends Component
     public function addDateTime()
     {
         // Push a new date and time pair into the array
-        //$this->dateTimes[] = ['date' => $this->date, 'time' => $this->time];
         $this->dateTimes[] = [
             'date' => $this->date,
             'time' => $this->time,
