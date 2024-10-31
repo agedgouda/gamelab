@@ -33,6 +33,7 @@ class CalendarDay extends ModalComponent
     {
         $this->closeModalWithEvents([
             Calendar::class => ['add-datetimes', [$this->selectedDateTimes]],
+            ScheduleGame::class => ['add-datetimes', [$this->selectedDateTimes]],
         ]);
     }
 

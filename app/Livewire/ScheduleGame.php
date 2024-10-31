@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\Attributes\On; 
+
 use App\Models\Game;
 use App\Models\User;
 use App\Models\Event;
@@ -167,7 +169,41 @@ class ScheduleGame extends Component
         // Reset the editing mode
         $this->isEditMode = false;
     }
+
+    public function transformDateTimes(array $dateTimes)
+    {
+  
+        // Create an array from the passed dateTimes
+        $newDateTimes = array_map(function ($dateTime) {
+            // Split the dateTime string into parts
+            $dateTimeParts = explode(' ', $dateTime);
+
+            // The date is the first part
+            $date = $dateTimeParts[0]; // e.g., "2024-10-31"
+
+            // The time is everything after the date (from the third element onward)
+            $time = \DateTime::createFromFormat('h:i A', implode(' ', array_slice($dateTimeParts, 2)))->format('H:i');
+
+            // Return an associative array with date and time
+            return [
+                'date' => $date,
+                'time' => $time
+            ];
+        }, $dateTimes);
+
     
+        $this->dateTimes = array_merge($this->dateTimes, $newDateTimes);
+
+    }
+    
+
+    #[On('add-datetimes')] 
+    public function updateDateTimes($dateTimes)
+    {
+        $this->transformDateTimes($dateTimes);
+
+    }
+
 
     public function render()
     {   

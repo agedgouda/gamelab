@@ -6,7 +6,6 @@
                         <div class="w-full h-full" >
                             <div class="w-full h-full p-2 flex flex-col text-center border border-b-0">
                                 {{ \Carbon\Carbon::create()->month($month)->format('F');}} {{ $year}}
-                                </br>{{ json_encode($dateTimesCollection)}}
                             </div>
                         </div>
                     </div>
@@ -47,34 +46,29 @@
 
                     </div>
                     <div class="w-full flex flex-row">
-                        @foreach($currentWeekDays as $day)
+                        @foreach($currentWeekDays as $weekday)
                         <div class="w-full h-full" >
-
-                            <div 
-                                onclick="Livewire.dispatch('openModal', { component: 'calendar-day' , arguments: { day: '{{$day}}' }})"
-                                class="w-full cursor-pointer h-36 p-2 flex border flex-col {{ $day ? $day->isToday() ? 'bg-yellow-100' : ' bg-white ' : 'bg-gray-100'  }} "
-                                >
-                                        
+                        <div 
+                            @if($weekday->day->isToday() || $weekday->day > now())
+                                onclick="Livewire.dispatch('openModal', { component: 'calendar-day' , arguments: { day: '{{ $weekday->day }}' }})"
+                                class="w-full cursor-pointer h-36 p-2 flex border flex-col {{ $day ? ($weekday->day->isToday() ? 'bg-yellow-100' : 'bg-white') : 'bg-gray-100' }}"
+                            @else
+                                class="w-full h-36 p-2 flex border flex-col bg-gray-100 cursor-not-allowed opacity-50"
+                            @endif
+                        >                                        
                                 <div class="flex items-center">
                                     <p class="text-sm ">
-                                        {{ $day->format('j') }}
+                                        {{ $weekday->day->format('j') }}
                                     </p>
                                     <p class="text-xs text-gray-600 ml-4">
-                                       
                                     </p>
                                 </div>
-                                <div class="p-2 my-2 flex-1 overflow-y-auto">
-                                    <div class="grid grid-cols-1 grid-flow-row gap-2">
-                                        @if($events)
-                                        @foreach($events as $event)
-                                            <div
-                                                @if($dragAndDropEnabled)
-                                                    draggable="true"
-                                                @endif
-                                                ondragstart="onLivewireCalendarEventDragStart(event, '{{ $event['id'] }}')">
-                                                @include($eventView, [
-                                                    'event' => $event,
-                                                ])
+                                <div class="my-2 flex-1 overflow-y-auto">
+                                    <div class="grid grid-cols-1 grid-flow-row">
+                                        @if($weekday->selectedTimes)
+                                        @foreach($weekday->selectedTimes as $time)
+                                            <div class="text-xs">
+                                                {{ \Carbon\Carbon::parse($time)->format('g:i A') }}
                                             </div>
                                         @endforeach
                                         @endif

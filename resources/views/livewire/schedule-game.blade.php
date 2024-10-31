@@ -89,8 +89,9 @@
         </div>
 -->
 
+
+
         <!-- Display Added Dates and Times -->
-{{ json_encode($dateTimes) }}
         @foreach($dateTimes as $index => $dateTime)
             <div class="grid grid-cols-5 mt-3">
                 <div class="mb-5">

@@ -15,10 +15,10 @@ class Calendar extends Component
     public $currentWeekDays = [];
     public $hours = [];
     public $selectedTimes = [];
-    public $selectedDateTimes = []; // = ["2024-10-30 00:00:00 2:00 PM","2024-10-30 00:00:00 5:30 PM","2024-11-01 00:00:00 12:30 PM","2024-11-01 00:00:00 6:00 PM"];
+    public $selectedDateTimes = [];
     public $dateTimes = [];
     public $events = [];
-    public $dateTimesCollection = [];
+    public $dateTimesCollection;
     
     public function mount()
     {
@@ -30,7 +30,21 @@ class Calendar extends Component
             return ($i + 9) . ':00 ' . ($i < 3 ? 'AM' : 'PM');
         }, range(0, 15));
 
+        $this->dateTimesCollection = collect($this->selectedDateTimes)
+        ->map(function ($dateTime) {
+            // Separate the date and time parts
+            [$date, $time] = explode(' ', $dateTime, 2);
+            return ['date' => $date, 'time' => $time];
+        })
+        ->groupBy('date')
+        ->map(function ($items) {
+            // Extract only the times for each date
+            return $items->pluck('time')->all();
+        })
+        ->toArray();
+
         $this->generateCalendar();
+
     }
 
     public function generateCalendar()
@@ -38,16 +52,38 @@ class Calendar extends Component
         $this->updateWeekDays();
         $this->updateMonthYear();
     }
-
+/*
     public function updateWeekDays()
     {
         $start = Carbon::parse($this->currentWeekStart);
         $this->currentWeekDays = collect(range(0, 6))->map(function ($i) use ($start) {
             $day = $start->copy()->addDays($i);
-            //$this->selectedTimes[$dateString] = $this->selectedTimes[$dateString] ?? [];
             return $day;
         });
     }
+*/
+    public function updateWeekDays()
+    {
+        $start = Carbon::parse($this->currentWeekStart);
+
+        $this->currentWeekDays = collect(range(0, 6))->map(function ($i) use ($start) {
+            $day = $start->copy()->addDays($i);
+            $dateString = $day->toDateString();
+
+            // Get times and format them
+            $formattedTimes = array_map(function ($time) {
+                // Extract only the part after the space (removing "00:00:00")
+                $timeParts = explode(' ', $time); // This will split the string into parts
+                return isset($timeParts[1]) ? $timeParts[1] . ' ' . $timeParts[2] : $time; // Return only the "2:00 PM"
+            }, $this->dateTimesCollection[$dateString] ?? []);
+
+            return (object) [
+                'day' => $day,
+                'selectedTimes' => $formattedTimes,
+            ];
+        })->toArray();
+    }
+
 
     public function updateMonthYear()
     {
@@ -84,6 +120,8 @@ class Calendar extends Component
             return $items->pluck('time')->all();
         })
         ->toArray();
+
+        $this->generateCalendar();
     }
 
 
