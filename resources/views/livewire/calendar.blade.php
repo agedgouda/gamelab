@@ -50,7 +50,7 @@
                         <div class="w-full h-full" >
                         <div 
                             @if($weekday->day->isToday() || $weekday->day > now())
-                                onclick="Livewire.dispatch('openModal', { component: 'calendar-day' , arguments: { day: '{{ $weekday->day }}' }})"
+                                onclick="Livewire.dispatch('openModal', { component: 'calendar-day' , arguments: { weekdayString: '{{ json_encode($weekday) }}' }})"
                                 class="w-full cursor-pointer h-36 p-2 flex border flex-col {{ $day ? ($weekday->day->isToday() ? 'bg-yellow-100' : 'bg-white') : 'bg-gray-100' }}"
                             @else
                                 class="w-full h-36 p-2 flex border flex-col bg-gray-100 cursor-not-allowed opacity-50"

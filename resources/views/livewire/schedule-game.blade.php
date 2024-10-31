@@ -63,33 +63,8 @@
 
         <!-- Add Date and Time Inputs -->
         <div class="mt-5">
-            <livewire:calendar/>   
+            <livewire:calendar />   
         </div>
-        <!--
-        <div class="grid grid-cols-3">
-            <div class="mb-5">
-                <x-input-label for="date" :value="__('Date')" />
-                <div class="flex items-center mt-1 mr-5">
-                    <x-text-input wire:model="date" id="date" class="w-48" type="date" name="date"/>
-                </div>
-            </div>
-
-            <div class="mb-5">
-                <x-input-label for="time" :value="__('Time')" />
-                <div class="flex items-center mt-1 mr-5">
-                    <x-text-input wire:model="time" id="time" class="w-48" type="time" name="time"/>
-                </div>
-            </div>
-
-            <div class="mb-5 mt-7">
-                <x-secondary-button wire:click="addDateTime" class="align-middle">
-                    {{ __('Add Date') }}
-                </x-secondary-button>
-            </div>
-        </div>
--->
-
-
 
         <!-- Display Added Dates and Times -->
         @foreach($dateTimes as $index => $dateTime)

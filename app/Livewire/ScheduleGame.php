@@ -25,6 +25,7 @@ class ScheduleGame extends Component
     public $events = [];
     public $isEditMode = false;
     public $eventId = '';
+    public $selectedDateTimes = [];
    
 
     public function updatedSearch()
@@ -150,7 +151,13 @@ class ScheduleGame extends Component
                 ];
             }
             $this->game = Game::find($event->game->id);
-            
+
+            $this->selectedDateTimes = array_map(function ($item) {
+                // Combine date and time and convert to desired format
+                $dateTime = \Carbon\Carbon::createFromFormat('Y-m-d H:i', $item['date'] . ' ' . $item['time']);
+                return $dateTime->format('Y-m-d 00:00:00 g:i A');
+            }, $this->dateTimes);
+            $this->dispatch('event-edited', selectedDateTimes: $this->selectedDateTimes);
             
         }
     }
@@ -165,6 +172,7 @@ class ScheduleGame extends Component
         $this->dateTimes = [];
         $this->eventId = '';
         $this->game = '';
+        $this->selectedDateTimes = [];
 
         // Reset the editing mode
         $this->isEditMode = false;
@@ -172,25 +180,18 @@ class ScheduleGame extends Component
 
     public function transformDateTimes(array $dateTimes)
     {
-  
-        // Create an array from the passed dateTimes
         $newDateTimes = array_map(function ($dateTime) {
-            // Split the dateTime string into parts
-            $dateTimeParts = explode(' ', $dateTime);
-
-            // The date is the first part
-            $date = $dateTimeParts[0]; // e.g., "2024-10-31"
-
-            // The time is everything after the date (from the third element onward)
-            $time = \DateTime::createFromFormat('h:i A', implode(' ', array_slice($dateTimeParts, 2)))->format('H:i');
-
-            // Return an associative array with date and time
+            // Split the date and time parts
+            [$date, $time] = explode(' ', $dateTime, 2);
+    
+            // Format the date
+            $formattedDate = \Carbon\Carbon::parse($date)->toDateString();
+    
             return [
-                'date' => $date,
-                'time' => $time
+                'date' => $formattedDate,
+                'time' => \DateTime::createFromFormat('h:i A',$time)->format('H:i'),
             ];
         }, $dateTimes);
-
     
         $this->dateTimes = array_merge($this->dateTimes, $newDateTimes);
 

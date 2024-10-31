@@ -3,8 +3,9 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use Carbon\Carbon;
 use Livewire\Attributes\On; 
+
+use Carbon\Carbon;
 
 class Calendar extends Component
 {
@@ -15,33 +16,23 @@ class Calendar extends Component
     public $currentWeekDays = [];
     public $hours = [];
     public $selectedTimes = [];
-    public $selectedDateTimes = [];
     public $dateTimes = [];
     public $events = [];
     public $dateTimesCollection;
+    public $selectedDateTimes = [];
     
     public function mount()
     {
+
         $now = Carbon::now();
         $this->month = $now->month;
         $this->year = $now->year;
-        $this->currentWeekStart = $now->startOfWeek()->toDateString();
+        $this->currentWeekStart = $now->startOfWeek(Carbon::SUNDAY)->toDateString();
         $this->hours = array_map(function ($i) {
             return ($i + 9) . ':00 ' . ($i < 3 ? 'AM' : 'PM');
         }, range(0, 15));
 
-        $this->dateTimesCollection = collect($this->selectedDateTimes)
-        ->map(function ($dateTime) {
-            // Separate the date and time parts
-            [$date, $time] = explode(' ', $dateTime, 2);
-            return ['date' => $date, 'time' => $time];
-        })
-        ->groupBy('date')
-        ->map(function ($items) {
-            // Extract only the times for each date
-            return $items->pluck('time')->all();
-        })
-        ->toArray();
+        $this->makeDateTimesCollection();
 
         $this->generateCalendar();
 
@@ -52,16 +43,7 @@ class Calendar extends Component
         $this->updateWeekDays();
         $this->updateMonthYear();
     }
-/*
-    public function updateWeekDays()
-    {
-        $start = Carbon::parse($this->currentWeekStart);
-        $this->currentWeekDays = collect(range(0, 6))->map(function ($i) use ($start) {
-            $day = $start->copy()->addDays($i);
-            return $day;
-        });
-    }
-*/
+
     public function updateWeekDays()
     {
         $start = Carbon::parse($this->currentWeekStart);
@@ -103,11 +85,32 @@ class Calendar extends Component
         $this->generateCalendar();
     }
     
+    #[On('event-edited')]
+    public function editCalendar($selectedDateTimes) {
+        $this->selectedDateTimes = $selectedDateTimes;
+        $this->makeDateTimesCollection();
+
+        $this->generateCalendar();
+        $this->updateWeekDays();
+    }
+
     #[On('add-datetimes')] 
     public function updateDateTimes($dateTimes)
     {
+        $dateTimes = array_map(function ($dateTime) {
+            // Remove the "T", microseconds, and timezone, leaving just the date, time, and AM/PM
+            return preg_replace('/T\d{2}:\d{2}:\d{2}\.\d{6}Z/', ' 00:00:00', $dateTime);
+        }, $dateTimes);
         $this->selectedDateTimes = array_unique(array_merge($this->selectedDateTimes, $dateTimes));
+        $this->makeDateTimesCollection();
+        $this->generateCalendar();
+    }
 
+    public function makeDateTimesCollection()
+    {
+
+        \Log::info(json_encode($this->selectedDateTimes));
+        
         $this->dateTimesCollection = collect($this->selectedDateTimes)
         ->map(function ($dateTime) {
             // Separate the date and time parts
@@ -120,11 +123,7 @@ class Calendar extends Component
             return $items->pluck('time')->all();
         })
         ->toArray();
-
-        $this->generateCalendar();
     }
-
-
     
     public function render()
     {

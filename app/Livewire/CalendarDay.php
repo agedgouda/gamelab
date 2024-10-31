@@ -7,7 +7,8 @@ use LivewireUI\Modal\ModalComponent;
 
 class CalendarDay extends ModalComponent
 {
-    public $day;
+    public $weekday;
+    public $weekdayString;
     public $times = [];
     public $selectedDateTimes = [];
 
@@ -20,6 +21,7 @@ class CalendarDay extends ModalComponent
             $this->times[] = $start->format('g:i A'); // Format as needed
             $start->add($interval);
         }
+        $this->weekday = json_decode($this->weekdayString);
     }
 
     public function addSelectedDateTime($dateTime)
