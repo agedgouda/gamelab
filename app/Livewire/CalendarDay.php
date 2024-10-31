@@ -11,6 +11,7 @@ class CalendarDay extends ModalComponent
     public $weekdayString;
     public $times = [];
     public $selectedDateTimes = [];
+    public $backgroundClass;
 
     public function mount()
     {
@@ -28,7 +29,27 @@ class CalendarDay extends ModalComponent
     {
         if (!in_array($dateTime, $this->selectedDateTimes)) {
             $this->selectedDateTimes[] = $dateTime;
+        } else {
+            $this->selectedDateTimes = array_filter($this->selectedDateTimes, fn($dt) => $dt !== $dateTime);
         }
+
+        \Log::info($this->selectedDateTimes );
+    }
+
+    public function getBackgroundClass($day, $time)
+    {
+        $dateTime = "{$day} {$time}";
+
+        // Return 'bg-red-500 text-white' if it's in selectedDateTimes and not in selectedTimes
+        if (in_array($dateTime, $this->selectedDateTimes)) {
+            return 'bg-red-800 text-white';
+        } 
+        // Return 'bg-black text-white' if it's in selectedTimes
+        elseif (in_array($time, $this->weekday->selectedTimes)) {
+            return 'bg-black text-white';
+        } 
+        // Return default empty string if neither condition is met
+        return '';
     }
 
     public function close()

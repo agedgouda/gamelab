@@ -108,9 +108,6 @@ class Calendar extends Component
 
     public function makeDateTimesCollection()
     {
-
-        \Log::info(json_encode($this->selectedDateTimes));
-        
         $this->dateTimesCollection = collect($this->selectedDateTimes)
         ->map(function ($dateTime) {
             // Separate the date and time parts
