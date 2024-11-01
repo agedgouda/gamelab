@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight font-data70 tracking-widest">
-            {{ __('Events') }}
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Appropriate Page Title') }}
         </h2>
     </x-slot>
 
