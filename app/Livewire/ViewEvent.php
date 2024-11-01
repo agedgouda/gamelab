@@ -18,8 +18,7 @@ class ViewEvent extends Component
     public $eventId;
     public $bggGameData;
     public $userAvailabilities = [];
-    //public $activeTab = 'game-details';
-    public $activeTab = 'posts';
+    public $activeTab = 'invitees';
     public $setDateUsers = [];
     public $isProcessing = false;
 

@@ -3,7 +3,7 @@
         Upcoming Games
     </div>
     @if($events)
-    <div class="grid grid-cols-7">
+    <div class="grid grid-cols-8">
         <div class="font-semibold">
             Game
         </div>
@@ -31,7 +31,7 @@
         </div>
     </div>
     @foreach($events as $event)
-    <div class="grid grid-cols-7 hover:bg-gray-100 cursor-pointer {{ $loop->odd ? 'bg-gray-200' : '' }}" @click="window.location.href = '/events/{{ $event->id }}'">
+    <div class="grid grid-cols-8 hover:bg-gray-100 cursor-pointer {{ $loop->odd ? 'bg-gray-200' : '' }}" @click="window.location.href = '/events/{{ $event->id }}'">
         <div class="align-middle">
             {{ $event->game->name }}
         </div>
@@ -74,7 +74,11 @@
                 </div>
             @endforeach
         </div>
-        
+        <div>
+            <x-danger-button class="mt-2">
+                <a href="/events/{{$event->id}}">Details</a>
+            </x-danger-button>
+        </div>
     </div>
     @endforeach
 

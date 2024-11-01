@@ -30,6 +30,9 @@ Route::view('/', 'events')
 Route::view('events/{eventId}', 'events')
     ->name('view-event');
 
+Route::view('events/edit/{eventId}', 'events')
+    ->name('edit-event');
+
 Route::view('schedule', 'schedule')
     ->middleware(['auth', 'verified'])
     ->name('schedule');

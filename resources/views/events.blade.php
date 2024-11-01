@@ -16,6 +16,9 @@
                         @case(request()->routeIs('view-event'))
                             @livewire('view-event',['eventId' => $eventId])
                             @break
+                        @case(request()->routeIs('edit-event'))
+                            @livewire('schedule-game',['eventId' => $eventId])
+                            @break
                     @endswitch
                 </div>
             </div>

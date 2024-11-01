@@ -106,15 +106,21 @@
 
         </div> 
         @endforeach
+        <div class="flex mb-5 mt-5 justify-end">
+            <x-danger-button class="mt-2">
+                <a href="/events/edit/{{$event->id}}">Edit</a>
+            </x-danger-button>
+        </div>
+
         <div class="flex mb-5">
             <div class="hidden space-x-8 sm:-my-px sm:flex">
-                <x-nav-link @click="$wire.set('activeTab', 'game-details')" :active="$activeTab=='game-details'" class="cursor-pointer" wire:navigate>
-                    {{ __('Game Details') }}
+                <x-nav-link @click="$wire.set('activeTab', 'invitees')" :active="$activeTab == 'invitees'" class="cursor-pointer" wire:navigate>
+                    {{ __('Invitees') }}
                 </x-nav-link>
             </div>
             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                <x-nav-link @click="$wire.set('activeTab', 'invitees')" :active="$activeTab == 'invitees'" class="cursor-pointer" wire:navigate>
-                    {{ __('Invitees') }}
+                <x-nav-link @click="$wire.set('activeTab', 'game-details')" :active="$activeTab=='game-details'" class="cursor-pointer" wire:navigate>
+                    {{ __('Game Details') }}
                 </x-nav-link>
             </div>
             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
@@ -125,10 +131,10 @@
         </div>        
     </div>  
 
-    @if($activeTab == 'posts')
-        <livewire:post-component :postableId="$event->id" :postableType="'event'" />
-    @elseif($activeTab == 'invitees')
+    @if($activeTab == 'invitees')
         <livewire:invite-players :eventId="$event->id" />   
+    @elseif($activeTab == 'posts')
+        <livewire:post-component :postableId="$event->id" :postableType="'event'" />
     @elseif($activeTab == 'game-details')  
     
     <div class="grid grid-cols-2 mb-2">

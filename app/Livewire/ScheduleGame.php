@@ -24,7 +24,7 @@ class ScheduleGame extends Component
     public $time;
     public $events = [];
     public $isEditMode = false;
-    public $eventId = '';
+    public $eventId;
     public $selectedDateTimes = [];
    
 
@@ -92,7 +92,7 @@ class ScheduleGame extends Component
         ]);
 
 
-        return redirect()->to('/schedule');
+        return redirect()->to('/events');
     }
 
     public function updateEvent() {
@@ -126,46 +126,54 @@ class ScheduleGame extends Component
     }
     
     
-    public function edit($eventId) {
-        $this->isEditMode = true;
-        $event = Event::with('proposedDates.availabilities.user')->find($eventId);
-    
-        if ($event) {
-            $this->eventId = $event->id;
-            $this->title = $event->title;
-            $this->description = $event->description;
-    
-            // Clear the existing date times
-            $this->dateTimes = [];
-    
-            // Populate the dateTimes array with the proposed dates
-            foreach ($event->proposedDates as $date) {
-                $availabilitiesForDate = $date->availabilities;
-                [$available, $notAvailable] = collect($availabilitiesForDate)->partition(fn($availability) => $availability['is_available'] == 1);
+    public function mount() {
+        if($this->eventId) {
+            $this->isEditMode = true;
+            $event = Event::with('proposedDates.availabilities.user')->find($this->eventId);
+        
+            if ($event) {
+                $this->eventId = $event->id;
+                $this->title = $event->title;
+                $this->description = $event->description;
+                $this->location = $event->location;
+        
+                // Clear the existing date times
+                $this->dateTimes = [];
+        
+                // Populate the dateTimes array with the proposed dates
+                foreach ($event->proposedDates as $date) {
+                    $availabilitiesForDate = $date->availabilities;
+                    [$available, $notAvailable] = collect($availabilitiesForDate)->partition(fn($availability) => $availability['is_available'] == 1);
 
-                $this->dateTimes[] = [
-                    'date' => \Carbon\Carbon::parse($date->date_time)->format('Y-m-d'),
-                    'time' => \Carbon\Carbon::parse($date->date_time)->format('H:i'),
-                    'available' => $available,
-                    'notAvailable' => $notAvailable,
-                ];
+                    $this->dateTimes[] = [
+                        'date' => \Carbon\Carbon::parse($date->date_time)->format('Y-m-d'),
+                        'time' => \Carbon\Carbon::parse($date->date_time)->format('H:i'),
+                        'available' => $available,
+                        'notAvailable' => $notAvailable,
+                    ];
+                }
+                $this->game = Game::find($event->game->id);
+
+                $this->selectedDateTimes = array_map(function ($item) {
+                    // Combine date and time and convert to desired format
+                    $dateTime = \Carbon\Carbon::createFromFormat('Y-m-d H:i', $item['date'] . ' ' . $item['time']);
+                    return $dateTime->format('Y-m-d 00:00:00 g:i A');
+                }, $this->dateTimes);
+                $this->dispatch('event-edited', selectedDateTimes: $this->selectedDateTimes);
+                
             }
-            $this->game = Game::find($event->game->id);
-
-            $this->selectedDateTimes = array_map(function ($item) {
-                // Combine date and time and convert to desired format
-                $dateTime = \Carbon\Carbon::createFromFormat('Y-m-d H:i', $item['date'] . ' ' . $item['time']);
-                return $dateTime->format('Y-m-d 00:00:00 g:i A');
-            }, $this->dateTimes);
-            $this->dispatch('event-edited', selectedDateTimes: $this->selectedDateTimes);
-            
         }
+    }
+    public function cancel()
+    {
+        return redirect()->to('/events/'.$this->eventId);
     }
 
     public function resetForm()
     {
         // Reset form fields
         $this->title = '';
+        $this->location = '';
         $this->description = '';
         $this->date = '';
         $this->time = '';
