@@ -107,9 +107,11 @@
         </div> 
         @endforeach
         <div class="flex mb-5 mt-5 justify-end">
-            <x-danger-button class="mt-2">
+            @if($event->user->id === auth()->id())
+            <x-danger-button class="mt-2 mr-2">
                 <a href="/events/edit/{{$event->id}}">Edit</a>
             </x-danger-button>
+            @endif
         </div>
 
         <div class="flex mb-5">
