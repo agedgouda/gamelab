@@ -3,7 +3,6 @@
         <div class="w-full h-full flex p-5 flex-col text-center bg-sky-200">
             {{ \Carbon\Carbon::parse($weekday->day)->format('l, F jS') }}
         </div>
-
         @foreach ($times as $time)
     <div x-data class="w-full flex flex-row">
         <div

@@ -1,6 +1,6 @@
 <div>
     <div class="relative">
-    <form wire:submit="{{ $isEditMode ? 'updateEvent' : 'createEvent' }}"> 
+    <form wire:submit="{{ $isEditMode ? 'update' : 'store' }}"> 
         <div class="grid grid-cols-4">    
             <div class="mt-4 mb-5"> 
                 <x-input-label for="title" :value="__('Name')" />
@@ -63,7 +63,7 @@
 
         <!-- Add Date and Time Inputs -->
         <div class="mt-5">
-            <livewire:calendar />   
+            <livewire:calendar :eventId="$eventId"/>   
         </div>
 
         <!-- Display Added Dates and Times -->

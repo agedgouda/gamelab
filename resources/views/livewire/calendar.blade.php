@@ -5,7 +5,7 @@
                     <div class="w-full flex flex-row bg-red-200">
                         <div class="w-full h-full" >
                             <div class="w-full h-full p-2 flex flex-col text-center border border-b-0">
-                                {{ \Carbon\Carbon::create()->month($month)->format('F');}} {{ $year}}
+                                {{ \Carbon\Carbon::create()->month($month)->format('F');}} {{ $year }}
                             </div>
                         </div>
                     </div>

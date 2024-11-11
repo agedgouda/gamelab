@@ -5,6 +5,8 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\Attributes\On; 
 
+use App\Models\Event;
+
 use Carbon\Carbon;
 
 class Calendar extends Component
@@ -17,7 +19,7 @@ class Calendar extends Component
     public $hours = [];
     public $selectedTimes = [];
     public $dateTimes = [];
-    public $events = [];
+    public $eventId;
     public $dateTimesCollection;
     public $selectedDateTimes = [];
     
@@ -32,10 +34,15 @@ class Calendar extends Component
             return ($i + 9) . ':00 ' . ($i < 3 ? 'AM' : 'PM');
         }, range(0, 15));
 
+        if($this->eventId) {
+            $event = Event::findOrFail($this->eventId);
+            $this->selectedDateTimes = collect($event->proposedDates->pluck('date_time'))->map(function ($dateTime) {
+                return Carbon::parse($dateTime)->format('Y-m-d 00:00:00 g:i A');
+            })->toArray();
+        }
+
         $this->makeDateTimesCollection();
-
         $this->generateCalendar();
-
     }
 
     public function generateCalendar()
@@ -97,11 +104,15 @@ class Calendar extends Component
     #[On('add-datetimes')] 
     public function updateDateTimes($dateTimes)
     {
+        
+        
         $dateTimes = array_map(function ($dateTime) {
             // Remove the "T", microseconds, and timezone, leaving just the date, time, and AM/PM
             return preg_replace('/T\d{2}:\d{2}:\d{2}\.\d{6}Z/', ' 00:00:00', $dateTime);
         }, $dateTimes);
+        \Log::info($dateTimes);
         $this->selectedDateTimes = array_unique(array_merge($this->selectedDateTimes, $dateTimes));
+        \Log::info($this->selectedDateTimes);
         $this->makeDateTimesCollection();
         $this->generateCalendar();
     }

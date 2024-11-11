@@ -23,6 +23,7 @@ class CalendarDay extends ModalComponent
             $start->add($interval);
         }
         $this->weekday = json_decode($this->weekdayString);
+
     }
 
     public function addSelectedDateTime($dateTime)
@@ -33,7 +34,7 @@ class CalendarDay extends ModalComponent
             $this->selectedDateTimes = array_filter($this->selectedDateTimes, fn($dt) => $dt !== $dateTime);
         }
 
-        \Log::info($this->selectedDateTimes );
+        //\Log::info($this->selectedDateTimes );
     }
 
     public function getBackgroundClass($day, $time)
