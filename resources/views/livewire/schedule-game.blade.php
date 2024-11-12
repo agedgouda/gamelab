@@ -7,14 +7,14 @@
                 <div class="flex items-center mt-1 mr-5">
                     <x-text-input wire:model="title" id="title" class="w-full" type="text" name="title"/>
                 </div>
-                <x-input-error :messages="$errors->get('form.title')" class="mt-2" />
+                <x-input-error :messages="$errors->get('title')" class="mt-2" />
             </div>
             <div class="mt-4 mb-5 col-span-3">
                 <x-input-label for="location" :value="__('Location')" />
                 <div class="flex items-center mt-1 mr-5">
                     <x-text-input wire:model="location" id="location" class="w-full" type="text" name="location"/>
                 </div>
-                <x-input-error :messages="$errors->get('form.location')" class="mt-2" />
+                <x-input-error :messages="$errors->get('location')" class="mt-2" />
             </div>
         </div>
 
@@ -23,43 +23,21 @@
             <div class="flex items-center mt-1 mr-5">
                 <x-text-input wire:model="description" id="description" class="w-full" type="text" name="description"/>
             </div>
-            <x-input-error :messages="$errors->get('form.description')" class="mt-2" />
+            <x-input-error :messages="$errors->get('description')" class="mt-2" />
         </div>
         
-        @if(!$isEditMode)
             @if(!$game)
-            <div class="mt-4 mb-5">
-                <input
-                    type="text"
-                    wire:model.live="search"
-                    placeholder="Search for a game..."
-                    class="block w-full p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
-                />
-
-                @if(count($games) > 0)
-                    <ul class="absolute z-10 w-full bg-white border border-gray-300 rounded-lg mt-1">
-                        @foreach($games as $game)
-                            <li
-                                wire:click="selectGame({{ $game->id }})"
-                                class="cursor-pointer p-2 hover:bg-blue-100"
-                            >
-                                {{ $game->name }}
-                            </li>
-                        @endforeach
-                    </ul>
-                @endif
-            </div>
+                <livewire:choose-game />
+            @else
+                <p class="mt-4 flex items-center">
+                    Games: {{ $game->name }}
+                    <x-danger-button type="button" wire:click="removeGame()"  class="align-middle h-2 ml-2">
+                        {{ __('Change') }}
+                    </x-danger-button> 
+                </p>
             @endif
-        @endif
         
-        <p class="mt-4 flex items-center">
-            @if($game)
-                Game: {{ $game->name }}
-                <x-danger-button type="button" wire:click="removeGame()"  class="align-middle h-2 ml-2">
-                    {{ __('Change') }}
-                </x-danger-button> 
-            @endif
-        </p>
+
 
         <!-- Add Date and Time Inputs -->
         <div class="mt-5">

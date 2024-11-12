@@ -9,6 +9,9 @@
         <span class="font-bold">Location:</span> {{ $event->location }}
     </div>    
     <div>
+        <span class="font-bold">Description:</span> {{ $event->description }}
+    </div>    
+    <div>
         <span class="font-bold">Game:</span> {{ $event->game->name }}
     </div>
     <div>

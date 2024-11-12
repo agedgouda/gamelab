@@ -14,7 +14,6 @@ use Carbon\Carbon;
 class ScheduleGame extends Component
 {
     public $game;
-    public $games = [];
     public $search = ''; 
     public $title = ''; 
     public $description = ''; 
@@ -26,17 +25,25 @@ class ScheduleGame extends Component
     public $eventId = null;
     public $selectedDateTimes = [];
 
-    public function updatedSearch()
+    public function rules() 
     {
-        $this->games = Game::where('name', 'like', '%' . $this->search . '%')
-            ->limit(10)
-            ->get();
+        return [
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'location' => 'required|string|max:255',
+            'game.id' => 'required|exists:games,id',
+        ];
     }
 
-    public function selectGame($gameId)
+    private function validateAndPrepareEventData(): array
     {
-        $this->game = Game::find($gameId);
-        $this->resetSearch();
+        $validatedData = $this->validate();
+
+        $validatedData['user_id'] = auth()->id();
+        $validatedData['game_id'] = $validatedData['game']['id'];
+        unset($validatedData['game']);
+
+        return $validatedData;
     }
 
     public function removeGame()
@@ -69,35 +76,28 @@ class ScheduleGame extends Component
 
     public function store()
     {
-        $event = Event::create([
-            'title' => $this->title,
-            'description' => $this->description,
-            'location' => $this->location,
-            'game_id' => $this->game->id,
-            'user_id' => auth()->id(),
-        ]);
+        $eventData = $this->validateAndPrepareEventData();
+
+        $event = Event::create($eventData);
 
         $this->saveProposedDates($event);
         $this->createOrganizerInvitee($event);
 
-        return redirect()->to('/events');
+        return redirect()->to('/events/'.$event->id);
     }
 
     public function update()
     {
         $event = Event::find($this->eventId);
+        
+        $eventData = $this->validateAndPrepareEventData();
 
         if ($event) {
-            $event->update([
-                'title' => $this->title,
-                'description' => $this->description,
-                'location' => $this->location,
-            ]);
-
+            $event->update($eventData);
             $this->updateProposedDates($event);
         }
 
-        return redirect()->to('/schedule');
+        return redirect()->to('/events/'.$this->eventId);
     }
 
     protected function saveProposedDates($event)
@@ -134,6 +134,7 @@ class ScheduleGame extends Component
     {
         if ($this->eventId) {
             $this->loadEventForEditing();
+            $this->isEditMode = true;
         }
     }
 
@@ -186,6 +187,12 @@ class ScheduleGame extends Component
             'time' => Carbon::createFromFormat('h:i A', explode(' ', $dt, 2)[1])->format('H:i'),
         ], $dateTimes));
     }
+    #[On('select-game')]
+    public function selectGame($gameId)
+    {
+        $this->game = Game::find($gameId);
+    }
+
 
     #[On('add-datetimes')]
     public function updateDateTimes($dateTimes)
