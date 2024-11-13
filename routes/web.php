@@ -24,23 +24,24 @@ Route::view('games', 'games')
 Route::view('/', 'events')
     ->name('welcome-event');
 
-    Route::view('events', 'events')
+Route::view('events', 'events')
     ->name('events');
 
 Route::view('events/{eventId}', 'events')
     ->name('view-event');
 
-Route::view('events/edit/{eventId}', 'events')
-    ->name('edit-event');
 
-Route::view('schedule', 'schedule')
-    ->middleware(['auth', 'verified'])
-    ->name('schedule');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::view('schedule', 'schedule')
+        ->name('schedule');
 
-Route::view('games/{bggId}', 'games')
-    ->middleware(['auth', 'verified'])
-    ->name('game-details');
-
+    Route::view('games/{bggId}', 'games')
+        ->name('game-details');
+    
+    Route::view('events/{eventId}/edit', 'events')
+        ->name('edit-event');
+});
+        
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');

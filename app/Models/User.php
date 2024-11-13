@@ -64,4 +64,21 @@ class User extends Authenticatable
     {
         return $this->hasMany(Event::class);
     }
+
+    public function games()
+    {
+        return $this->belongsToMany(Game::class);
+    }
+
+    public function friends()
+    {
+        return $this->belongsToMany(User::class, 'friend_user', 'user_id', 'friend_id')
+                    ->withTimestamps();
+    }
+
+    public function friendOf()
+    {
+        return $this->belongsToMany(User::class, 'friend_user', 'friend_id', 'user_id')
+                    ->withTimestamps();
+    }
 }

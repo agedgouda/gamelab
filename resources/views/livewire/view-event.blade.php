@@ -112,7 +112,7 @@
         <div class="flex mb-5 mt-5 justify-end">
             @if($event->user->id === auth()->id())
             <x-danger-button class="mt-2 mr-2">
-                <a href="/events/edit/{{$event->id}}">Edit</a>
+                <a href="{{ route('edit-event', ['eventId' => $event->id]) }}">Edit</a>
             </x-danger-button>
             @endif
         </div>
