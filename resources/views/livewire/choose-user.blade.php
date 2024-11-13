@@ -6,7 +6,7 @@
         class="block w-full p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
     />
     @if(count($users) > 0)
-        <ul class="absolute z-10 w-full bg-white border border-gray-300 rounded-lg mt-1">
+        <ul class="absolute z-10 w-full bg-white border border-gray-300 rounded-lg mt-1 no-bullets">
             @foreach($users as $user)
                 <li
                     wire:click="selectUser({{ $user->id }})"

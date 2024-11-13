@@ -7,7 +7,7 @@
     />
 
     @if(count($games) > 0)
-        <ul class="absolute z-10 w-full bg-white border border-gray-300 rounded-lg mt-1">
+        <ul class="absolute z-10 w-full bg-white border border-gray-300 rounded-lg mt-1 no-bullets">
             @foreach($games as $game)
                 <li
                     wire:click="selectGame({{ $game->id }})"
