@@ -1,4 +1,5 @@
 <div class="mt-4 mb-5">
+
     <input
         type="text"
         wire:model.live="search"

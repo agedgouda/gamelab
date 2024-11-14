@@ -12,6 +12,7 @@ class ChooseUser extends Component
     public $users = [];
     public $search = '';
 
+
     public function mount($userId = null) {
         $this->userId = $userId;
     }
@@ -47,6 +48,7 @@ class ChooseUser extends Component
         $this->search = '';
         $this->users = [];
     }
+    
     public function render()
     {
         return view('livewire.choose-user');

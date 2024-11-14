@@ -6,12 +6,13 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "dcblogdev/laravel-dropbox": "^3.0",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
+        "league/flysystem-aws-s3-v3": "^3.29",
         "livewire/livewire": "^3.4",
         "livewire/volt": "^1.0",
         "sendgrid/sendgrid": "^8.1",
+        "spatie/flysystem-dropbox": "^3.0",
         "wire-elements/modal": "^2.0"
     },
     "require-dev": {
