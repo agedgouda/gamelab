@@ -25,3 +25,9 @@
         margin-left: 1em;
     }
 }
+@layer base {
+    ul.no-bullets {
+        list-style-type: none;
+        padding-left: 0; /* Remove padding left if necessary */
+    }
+}

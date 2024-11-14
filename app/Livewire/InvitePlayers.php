@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use App\Models\Invitee;
 use App\Mail\InvitePlayer;
@@ -19,7 +19,18 @@ class InvitePlayers extends Component
     public $email;
     public $isProcessing = false;
     public $emailSent = null;
+    public $uninvitedFriends;
     
+    public function getUninvitedFriends()
+    {
+        // Get the authenticated user's friends who are not invitees of the specified event
+        $this->uninvitedFriends = Auth::user()->friends()
+            ->whereDoesntHave('invitees', function ($query) {
+                $query->where('event_id', $this->eventId); // Check if the friend has been invited to the event
+            })
+            ->get();
+    }
+
     public function sendInvite($eventId,$name = null, $email = null)
     {
         $this->isProcessing = true;
@@ -87,6 +98,7 @@ class InvitePlayers extends Component
     public function render()
     {
         $this->invitees = Invitee::with('user')->where('event_id',$this->eventId)->get();
+        $this->getUninvitedFriends();
         return view('livewire.invite-players');
     }
 }

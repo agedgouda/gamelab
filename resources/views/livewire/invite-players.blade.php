@@ -1,28 +1,53 @@
 <div class="mb-5">
     <div>
-        @foreach($invitees as $invitee)
-        <div class="grid grid-cols-3 {{ $loop->odd ? 'bg-gray-200' : '' }} py-4">
-            <div class="flex items-center pl-3">
-                @if($invitee->user)
-                    <x-application-logo class="h-6 w-[30px] text-gray-800 " />
+        @php
+            // Calculate the total number of items in the first loop
+            $inviteeCount = $invitees->count();
+        @endphp
+
+        @foreach($invitees as $index => $invitee)
+            <div class="grid grid-cols-3 {{ $loop->odd ? 'bg-gray-200' : '' }} py-4">
+                <div class="flex items-center pl-3">
+                    @if($invitee->user->friendOf->contains('id', auth()->id()))
+                        <x-application-logo class="h-6 w-[30px] text-gray-800 " />
+                    @endif
+                    <span class="mr-2">{{ $invitee->name }} </span>
+                </div>
+                <div class="flex items-center pl-3">{{ $invitee->email }}</div>
+                @if(!$invitee->user->events->contains('id',$eventId))
+                    <div class="flex justify-center" wire:loading.remove wire:click="sendInvite({{ $eventId }}, '{{ $invitee->name }}', '{{ $invitee->email }}')">
+                        <x-danger-button class="px-4 py-2">
+                            Resend Invitation
+                        </x-danger-button>
+                    </div>
+                @else
+                    <div class="flex justify-center font-bold">Event Organizer</div>
                 @endif
-                <span class="mr-2">{{ $invitee->name }}</span>
             </div>
-            <div class="flex items-center pl-3">{{ $invitee->email }}</div>
-            @if($invitee->message_status == 'not sent')
-                <div  class="flex justify-center" wire:loading.remove wire:click="sendInvite({{ $eventId }}, '{{ $invitee->name }}', '{{ $invitee->email }}')">
+        @endforeach
+
+        @foreach($uninvitedFriends as $index => $friend)
+        @php
+                // Calculate the current loop index by adding the count of the first loop
+                $currentIndex = $inviteeCount + $index;
+            @endphp
+            <div class="grid grid-cols-3 {{ $currentIndex % 2 == 0 ? 'bg-gray-200' : '' }} py-4">
+                <div class="flex items-center pl-3">
+                    <x-application-logo class="h-6 w-[30px] text-gray-800 " />
+                    <span class="mr-2">{{ $friend->name }}</span>
+                </div>
+                <div class="flex items-center pl-3">{{ $friend->email }}</div>
+                <div class="flex justify-center" wire:loading.remove wire:click="sendInvite({{ $eventId }}, '{{ $friend->name }}', '{{ $friend->email }}')">
                     <x-danger-button class="px-4 py-2">
-                        Resend Invitation
+                        Send Invitation
                     </x-danger-button>
                 </div>
-            @else
-                <div class="flex justify-center">{{ $invitee->message_status }}</div>
-            @endif
-        </div>
+            </div>
         @endforeach
+
         @if(auth()->check())
         <form wire:submit.prevent="sendInvite({{ $eventId }})">
-            <div class="grid grid-cols-3 mb-2 {{ count($invitees) % 2 === 0 ? 'bg-gray-200' : '' }} py-4">
+            <div class="grid grid-cols-3 mb-2 {{ $currentIndex+1 % 2 === 0 ? 'bg-gray-200' : '' }} py-4">
                 <div class="flex flex-col items-start pl-3">
                     <input type="text" wire:model.defer="name" placeholder="Enter Name" class="border rounded px-2 py-1 w-full" />
                     @error('name') 
