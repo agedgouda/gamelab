@@ -30,7 +30,7 @@ class UserInformation extends Component
 
         // Flash message after successful upload
         session()->flash('message', 'File uploaded successfully!');
-
+        $this->dispatch('fileUploaded');
         // Fetch all image files from the 'users' directory in the S3 bucket
         $this->fetchImages();
 

@@ -1,18 +1,24 @@
-<div>
+<div x-data="fileUploadComponent">
     <!-- File Input -->
     <form wire:submit.prevent="uploadFile">
-        <input type="file" wire:model="file" id="fileInput" onchange="previewFile()">
+        <input 
+            type="file" 
+            x-ref="fileInput" 
+            @change="previewFile" 
+            wire:model="file"
+        >
         
-        @error('file') 
-            <span class="error">{{ $message }}</span>
-        @enderror
+        <template x-if="fileError">
+            <span class="error" x-text="fileError"></span>
+        </template>
         
         <!-- Preview Area -->
-        @if ($previewUrl)
+        <template x-if="previewUrl">
             <div class="preview">
-                <img src="{{ $previewUrl }}" alt="File Preview" class="img-preview">
+                <h4>Original Image Preview (Will Be Uploaded)</h4>
+                <img :src="previewUrl" alt="File Preview" class="img-preview">
             </div>
-        @endif
+        </template>
 
         <button type="submit" class="btn-upload">Upload</button>
     </form>
@@ -31,20 +37,37 @@
     </div>
 </div>
 
-<!-- JavaScript for File Preview -->
 <script>
-    function previewFile() {
-        const fileInput = document.getElementById('fileInput');
-        const file = fileInput.files[0];
-        
-        if (file) {
-            const reader = new FileReader();
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('fileUploadComponent', () => ({
+            previewUrl: @entangle('previewUrl'),
+            fileError: null,
 
-            reader.onload = function (e) {
-                @this.previewUrl = e.target.result;  // Set the preview URL in Livewire
-            };
-            
-            reader.readAsDataURL(file); // Convert the file to a Data URL
-        }
-    }
+            init() {
+                this.$watch('$wire.file', () => {
+                    this.fileError = @js($errors->first('file') ?? null);
+                });
+
+                Livewire.on('fileUploaded', () => {
+                    this.previewUrl = null; // Clear the preview
+                    this.$refs.fileInput.value = ''; // Reset file input
+                });
+
+                Livewire.hook('message.processed', (message, component) => {
+                    this.fileError = @js($errors->first('file') ?? null);
+                });
+            },
+
+            previewFile() {
+                const fileInput = this.$refs.fileInput.files[0];
+                if (fileInput) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.previewUrl = e.target.result;
+                    };
+                    reader.readAsDataURL(fileInput);
+                }
+            },
+        }));
+    });
 </script>
