@@ -25,7 +25,7 @@ class InvitePlayers extends Component
     public function getUninvitedFriends()
     {
         // Get the authenticated user's friends who are not invitees of the specified event
-        if(Auth::user()->friends()) {
+        if(Auth::user() && Auth::user()->friends()) {
         $this->uninvitedFriends = Auth::user()->friends()
             ->whereDoesntHave('invitees', function ($query) {
                 $query->where('event_id', $this->eventId); // Check if the friend has been invited to the event
