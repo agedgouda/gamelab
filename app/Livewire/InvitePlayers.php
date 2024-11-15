@@ -19,16 +19,19 @@ class InvitePlayers extends Component
     public $email;
     public $isProcessing = false;
     public $emailSent = null;
-    public $uninvitedFriends;
+    public $uninvitedFriends = [];
+
     
     public function getUninvitedFriends()
     {
         // Get the authenticated user's friends who are not invitees of the specified event
+        if(Auth::user()->friends()) {
         $this->uninvitedFriends = Auth::user()->friends()
             ->whereDoesntHave('invitees', function ($query) {
                 $query->where('event_id', $this->eventId); // Check if the friend has been invited to the event
             })
             ->get();
+        }
     }
 
     public function sendInvite($eventId,$name = null, $email = null)

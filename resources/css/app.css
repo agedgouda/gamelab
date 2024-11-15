@@ -1,6 +1,9 @@
+
+@import 'cropperjs/dist/cropper.min.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @font-face {
     font-family: 'Data70';
     src: url('/fonts/data-70-regular.otf') format('opentype');
@@ -30,4 +33,8 @@
         list-style-type: none;
         padding-left: 0; /* Remove padding left if necessary */
     }
+}
+
+.crop-controls {
+    margin-top: 10px;
 }

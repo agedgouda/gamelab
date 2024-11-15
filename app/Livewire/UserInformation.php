@@ -18,7 +18,6 @@ class UserInformation extends Component
         'file' => 'required|file|mimes:jpeg,png,pdf|max:10240', // Validate file type and size
     ];
 
-
     public function uploadFile()
     {
         $this->validate();
@@ -54,15 +53,6 @@ class UserInformation extends Component
             return Storage::disk('s3')->url($file);
         }, $this->images);
     }
-
-
-    public function generateSignedUrl($fileName)
-    {
-        //dd($fileName);
-        $signedUrl = $this->s3Service->getSignedUrl('Iq7Z5cmc2CBA15lwj7B1uq4TWbBxNCf0Jn1SrA4K');
-        return response()->json(['url' => $signedUrl]);
-    }
-    
 
     public function render()
     {
