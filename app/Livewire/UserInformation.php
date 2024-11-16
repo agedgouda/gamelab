@@ -3,39 +3,24 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use Livewire\WithFileUploads;
+use Livewire\Attributes\On;
 use Illuminate\Support\Facades\Storage;
+use App\Models\User;
+
 
 class UserInformation extends Component
 {
-    use WithFileUploads;
-
+ 
     public $file;
-    public $images = [];
-    public $previewUrl;
+    public $changeImage = false;
 
-    protected $rules = [
-        'file' => 'required|file|mimes:jpeg,png,pdf|max:10240', // Validate file type and size
-    ];
+    public function toggleUpload() {
+        $this->changeImage = !$this->changeImage;
+    }
 
-    public function uploadFile()
+    public function render()
     {
-        $this->validate();
-
-        // Store the file on S3
-        $path = $this->file->store('users', 's3'); // Store the file in the 'users' folder
-
-        // Optionally, generate a URL to display for this file (this can be public or signed URL)
-        $fileUrl = Storage::disk('s3')->url($path); // URL for the uploaded file
-
-        // Flash message after successful upload
-        session()->flash('message', 'File uploaded successfully!');
-        $this->dispatch('fileUploaded');
-        // Fetch all image files from the 'users' directory in the S3 bucket
-        $this->fetchImages();
-
-        // Reset the file input field after upload
-        $this->reset('file');
+         return view('livewire.user-information');
     }
 
     public function fetchImages()
@@ -54,9 +39,11 @@ class UserInformation extends Component
         }, $this->images);
     }
 
-    public function render()
+    #[On('file-uploaded')]
+    public function newUserImage($fileUrl)
     {
-        $this->fetchImages();
-        return view('livewire.user-information');
+        auth()->user()->portrait = $fileUrl;
+        auth()->user()->save();
+        $this->changeImage = false;
     }
 }
