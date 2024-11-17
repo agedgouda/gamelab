@@ -26,6 +26,6 @@ class ListEvents extends Component
             })
         ->get();
         
-        return view('livewire.list-events');
+        return view('livewire.events.list-events');
     }
 }

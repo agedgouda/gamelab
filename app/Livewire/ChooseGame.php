@@ -48,6 +48,6 @@ class ChooseGame extends Component
 
     public function render()
     {
-        return view('livewire.choose-game');
+        return view('livewire.game.choose-game');
     }
 }

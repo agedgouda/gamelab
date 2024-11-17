@@ -111,6 +111,6 @@ class ViewEvent extends Component
     public function render()
     {
 
-        return view('livewire.view-event');
+        return view('livewire.events.view-event');
     }
 }

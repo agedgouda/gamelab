@@ -31,7 +31,7 @@ class GameList extends Component
 
     public function render()
     {
-        return view('livewire.game-list');
+        return view('livewire.profile.game-list');
     }
 
     #[On('select-game')]

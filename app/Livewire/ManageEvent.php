@@ -11,7 +11,7 @@ use App\Models\Invitee;
 use App\Models\ProposedDate;
 use Carbon\Carbon;
 
-class ScheduleGame extends Component
+class ManageEvent extends Component
 {
     public $game;
     public $search = ''; 
@@ -203,7 +203,7 @@ class ScheduleGame extends Component
     public function render()
     {
         $this->userId = auth()->id();
-        return view('livewire.schedule-game');
+        return view('livewire.events.manage-event');
     }
 
 }

@@ -20,7 +20,7 @@ class ListGames extends Component
             })
             ->paginate(10);
 
-        return view('livewire.list-games', [
+        return view('livewire.game.list-games', [
             'games' => $games,
             'search' => $this->search
         ]);       

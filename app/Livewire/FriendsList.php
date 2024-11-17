@@ -30,7 +30,7 @@ class FriendsList extends Component
 
     public function render()
     {
-        return view('livewire.friends-list');
+        return view('livewire.profile.friends-list');
     }
 
     #[On('select-user')]

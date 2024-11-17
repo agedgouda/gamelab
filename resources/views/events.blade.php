@@ -17,7 +17,7 @@
                             @livewire('view-event',['eventId' => $eventId])
                             @break
                         @case(request()->routeIs('edit-event'))
-                            @livewire('schedule-game',['eventId' => $eventId])
+                            @livewire('manage-event',['eventId' => $eventId])
                             @break
                     @endswitch
                 </div>

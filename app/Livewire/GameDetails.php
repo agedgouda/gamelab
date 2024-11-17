@@ -91,6 +91,6 @@ class GameDetails extends Component
 
     public function render()
     {
-        return view('livewire.game-details');
+        return view('livewire.game.game-details');
     }
 }

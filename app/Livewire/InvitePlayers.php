@@ -102,6 +102,6 @@ class InvitePlayers extends Component
     {
         $this->invitees = Invitee::with('user')->where('event_id',$this->eventId)->get();
         $this->getUninvitedFriends();
-        return view('livewire.invite-players');
+        return view('livewire.events.invite-players');
     }
 }

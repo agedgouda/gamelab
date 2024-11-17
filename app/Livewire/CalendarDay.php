@@ -65,6 +65,6 @@ class CalendarDay extends ModalComponent
 
     public function render()
     {
-        return view('livewire.calendar-day');
+        return view('livewire.calendar.calendar-day');
     }
 }

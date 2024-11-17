@@ -20,7 +20,7 @@ class UserInformation extends Component
 
     public function render()
     {
-         return view('livewire.user-information');
+         return view('livewire.profile.user-information');
     }
 
     public function fetchImages()

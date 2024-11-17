@@ -37,6 +37,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::view('games/{bggId}', 'games')
         ->name('game-details');
+
+    Route::view('directory', 'directory')
+        ->name('directory');
     
     Route::view('events/{eventId}/edit', 'events')
         ->name('edit-event');
