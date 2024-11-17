@@ -11,11 +11,11 @@
                 <div class="p-6 text-gray-900">
                     @switch(true)
                         @case(request()->routeIs('games'))
-                            @livewire('create-game')
-                            @livewire('list-games')
+                            @livewire('game.create-game')
+                            @livewire('game.list-games')
                             @break
                         @case(request()->routeIs('game-details'))
-                            @livewire('game-details',['bggId' => $bggId])
+                            @livewire('game.game-details',['bggId' => $bggId])
                             @break
                     @endswitch
                 </div>

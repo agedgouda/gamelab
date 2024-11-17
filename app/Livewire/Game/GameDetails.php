@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Game;
 use App\Models\Game;
 
 use Livewire\Component;

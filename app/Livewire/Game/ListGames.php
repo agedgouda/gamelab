@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Game;
 
 use Livewire\WithPagination;
 use Livewire\Component;

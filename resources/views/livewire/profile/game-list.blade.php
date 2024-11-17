@@ -5,7 +5,7 @@
         </h2>
     </header>
     <div class="max-w-xl">
-        <livewire:choose-game :userId="auth()->id()" />
+        <livewire:game.choose-game :userId="auth()->id()" />
     </div>
     @foreach($games as $game)
     <div wire:key="game-{{ $game->id }}" class="w-6/12 flex justify-between items-center">

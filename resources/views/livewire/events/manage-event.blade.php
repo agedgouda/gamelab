@@ -27,7 +27,7 @@
         </div>
         
             @if(!$game)
-                <livewire:choose-game />
+                <livewire:game.choose-game />
             @else
                 <p class="mt-4 flex items-center">
                     Games: {{ $game->name }}
