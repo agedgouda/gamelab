@@ -137,7 +137,7 @@
     </div>  
 
     @if($activeTab == 'invitees')
-        <livewire:invite-players :eventId="$event->id" />   
+        <livewire:events.invite-players :eventId="$event->id" />   
     @elseif($activeTab == 'posts')
         <livewire:post-component :postableId="$event->id" :postableType="'event'" />
     @elseif($activeTab == 'game-details')  

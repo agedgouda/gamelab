@@ -41,7 +41,7 @@
 
         <!-- Add Date and Time Inputs -->
         <div class="mt-5">
-            <livewire:calendar :eventId="$eventId"/>   
+            <livewire:calendar.calendar-week :eventId="$eventId"/>   
         </div>
 
         <!-- Display Added Dates and Times -->

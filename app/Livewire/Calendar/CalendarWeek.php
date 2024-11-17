@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Calendar;
 
 use Livewire\Component;
 use Livewire\Attributes\On; 
@@ -9,7 +9,7 @@ use App\Models\Event;
 
 use Carbon\Carbon;
 
-class Calendar extends Component
+class CalendarWeek extends Component
 {
 
     public $month;

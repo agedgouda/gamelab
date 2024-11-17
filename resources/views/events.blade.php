@@ -11,13 +11,13 @@
                 <div class="p-6 text-gray-900">
                     @switch(true)
                         @case(request()->routeIs('welcome-event') || request()->routeIs('events') )
-                            @livewire('list-events')
+                            @livewire('events.list-events')
                             @break
                         @case(request()->routeIs('view-event'))
-                            @livewire('view-event',['eventId' => $eventId])
+                            @livewire('events.view-event',['eventId' => $eventId])
                             @break
                         @case(request()->routeIs('edit-event'))
-                            @livewire('manage-event',['eventId' => $eventId])
+                            @livewire('events.manage-event',['eventId' => $eventId])
                             @break
                     @endswitch
                 </div>

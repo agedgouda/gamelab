@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Calendar;
 
 
 use LivewireUI\Modal\ModalComponent;
@@ -56,12 +56,10 @@ class CalendarDay extends ModalComponent
     public function close()
     {
         $this->closeModalWithEvents([
-            Calendar::class => ['add-datetimes', [$this->selectedDateTimes]],
-            ScheduleGame::class => ['add-datetimes', [$this->selectedDateTimes]],
+            CalendarWeek::class => ['add-datetimes', [$this->selectedDateTimes]],
+            \App\Livewire\Events\ManageEvent::class => ['add-datetimes', [$this->selectedDateTimes]],
         ]);
     }
-
-
 
     public function render()
     {
