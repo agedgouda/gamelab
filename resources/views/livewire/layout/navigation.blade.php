@@ -89,7 +89,11 @@ new class extends Component
                 <x-nav-link :href="route('login')" wire:navigate>
                     {{ __('Login') }}
                 </x-nav-link>
+                <x-nav-link :href="route('register')" wire:navigate>
+                    {{ __('Register') }}
+                </x-nav-link>
             </div>
+
             @endif
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
