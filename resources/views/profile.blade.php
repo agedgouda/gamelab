@@ -9,15 +9,15 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <livewire:user-information />
+                <livewire:profile.user-information />
             </div>
 
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <livewire:game-list />
+                <livewire:profile.game-list />
             </div>
 
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <livewire:friends-list />
+                <livewire:profile.friends-list />
             </div>
 
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">

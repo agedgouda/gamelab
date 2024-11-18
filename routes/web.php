@@ -40,7 +40,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::view('directory', 'directory')
         ->name('directory');
-    
+
+    Route::view('directory/{userId}', 'directory')
+        ->name('directory-entry');    
+
     Route::view('events/{eventId}/edit', 'events')
         ->name('edit-event');
 });
