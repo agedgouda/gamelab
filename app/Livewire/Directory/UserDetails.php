@@ -3,21 +3,43 @@
 namespace App\Livewire\Directory;
 
 use Livewire\Component;
-
+use Livewire\WithPagination;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 class UserDetails extends Component
 {
-    public $userId;
+    use WithPagination;
 
-    public function addFriend($userId){
-        auth()->user()->friends()->attach($userId);
+    public $userId;
+    public $user;
+
+    public function mount($userId)
+    {
+        $this->userId = $userId;
+        $this->user = User::findOrFail($this->userId);
+    }
+
+    public function addFriend()
+    {
+        $authUser = Auth::user();
+        if (!$authUser->friends()->where('id', $this->userId)->exists()) {
+            $authUser->friends()->attach($this->userId);
+        }
+    }
+
+    public function removeFriend()
+    {
+        $authUser = Auth::user();
+        if ($authUser->friends()->where('id', $this->userId)->exists()) {
+            $authUser->friends()->detach($this->userId);
+        }
     }
 
     public function render()
     {
-        $user = User::findOrFail($this->userId);
-        return view('livewire.directory.user-details',[
-            'user' => $user
+        return view('livewire.directory.user-details', [
+            'events' => $this->user->events()->paginate(5),
         ]);
     }
 }
