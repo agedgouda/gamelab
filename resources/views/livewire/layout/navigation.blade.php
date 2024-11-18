@@ -52,7 +52,6 @@ new class extends Component
                         {{ __('Game Catalog') }}
                     </x-nav-link>
                 </div>
-
             </div>
             @if(auth()->check())
             <!-- Settings Dropdown -->
@@ -110,9 +109,34 @@ new class extends Component
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
-                {{ __('Dashboard') }}
+            <x-responsive-nav-link :href="route('welcome-event')" :active="request()->routeIs('welcome-event')" wire:navigate>
+                {{ __('Events') }}
             </x-responsive-nav-link>
+            @if(auth()->check())
+            <x-responsive-nav-link :href="route('events')" :active="request()->routeIs('*event*')" wire:navigate>
+                {{ __('Upcoming Games') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('schedule')" :active="request()->routeIs('schedule')" wire:navigate>
+                {{ __('Schedule Game') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('directory')" :active="request()->routeIs('directory*')" wire:navigate>
+                {{ __('Directory') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('games')" :active="request()->routeIs('game*')" wire:navigate>
+                {{ __('Game Catalog') }}
+            </x-nav-link>
+            @else
+            <x-responsive-nav-link :href="route('login')" :active="request()->routeIs('login')" wire:navigate>
+                {{ __('Login') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('register')" :active="request()->routeIs('register')" wire:navigate>
+                {{ __('Register') }}
+            </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

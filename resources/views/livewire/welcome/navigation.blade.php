@@ -4,7 +4,7 @@
             href="{{ url('/events') }}"
             class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
         >
-            Dashboard
+            Events
         </a>
 
             <!-- Settings Dropdown -->
@@ -23,14 +23,10 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('dashboard')" wire:navigate>
-                            {{ __('Dashboard') }}
+                        <x-dropdown-link :href="route('welcome-event')" wire:navigate>
+                            {{ __('Upcomming Games') }}
                         </x-dropdown-link>
 
-                        <x-dropdown-link :href="route('welcome')" wire:navigate>
-                            {{ __('Upcoming') }}
-                        </x-dropdown-link>
-                        
                         <x-dropdown-link :href="route('profile')" wire:navigate>
                             {{ __('Profile') }}
                         </x-dropdown-link>

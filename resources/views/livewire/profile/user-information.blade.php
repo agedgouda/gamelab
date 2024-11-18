@@ -18,7 +18,7 @@
     </x-danger-button>
 
     <div>
-    {{auth()->user()->name}}
+        {{auth()->user()->name}}
     </div>
 
 </div>

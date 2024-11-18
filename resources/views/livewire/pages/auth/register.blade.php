@@ -20,8 +20,7 @@ new #[Layout('layouts.guest')] class extends Component
     public function mount()
     {
         // Retrieve session flash data (if available) for message and route
-        $this->message = session('message', 'ddd'); // default value is 'sheboygan'
-        $this->route = session('route', '/schedule'); // default value is 'dashboard'
+        $this->route = session('route', '/welcome-event');
     }
 
 
