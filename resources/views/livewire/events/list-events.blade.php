@@ -18,7 +18,7 @@
                 @click="window.location.href = '/events/{{ $event->id }}'">
                 <td class="border border-gray-300 p-2 align-middle">
                     <div class="flex items-center">
-                        <img src="{{ $event->game->thumbnail }}" class="w-16 h-16 object-cover mr-2" />
+                        <img src="{{ $event->game->thumbnail }}" class="h-16 mr-2" />
                         <span>{{ $event->game->name }}</span>
                     </div>
                 </td>
