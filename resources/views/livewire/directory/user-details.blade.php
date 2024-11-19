@@ -5,7 +5,7 @@
         <x-application-logo class="block h-9 fill-current text-gray-800" />
     @endif
     {{ $user->name }}
-    <div><span class="font-bold">Email:</span> <a href="mailto:{{ $user->email }}" class="hover:text-zinc-500 underline cursor-pointer">{{ $user->email }}</a><div>
+    <div><span class="font-bold">Email:</span> <a href="mailto:{{ $user->email }}" class="text-yellow-900 cursor-pointer hover:text-yellow-400">{{ $user->email }}</a><div>
 
 
     @if($user->id != auth()->id() )
@@ -25,7 +25,7 @@
         @else
             @foreach($user->games as $game)
                 <div 
-                    class="text-sm w-96 hover:bg-gray-100 cursor-pointer {{ $loop->odd ? 'bg-gray-200' : '' }}"
+                    class="text-sm w-96 hover:bg-teal-700 text-yellow-900 cursor-pointer hover:text-yellow-400 {{ $loop->odd ? 'bg-green-100' : '' }}"
                     @click="window.location.href = '{{ route('game-details', ['bggId' => $game->bgg_id]) }}' "  
                 >
                     {{ $game->name }}
@@ -37,7 +37,7 @@
         <div class="font-bold mt-3">Friends</div>
             @foreach($user->friends as $friend)
                 <div 
-                    class="text-sm w-96 hover:bg-gray-100 cursor-pointer {{ $loop->odd ? 'bg-gray-200' : '' }}"
+                    class="text-sm w-96 hover:bg-teal-700 text-yellow-900 cursor-pointer hover:text-yellow-400 {{ $loop->odd ? 'bg-green-100' : '' }}"
                     @click="window.location.href = '{{ route('directory-entry', ['userId' => $friend->id]) }}' "  
                 >
                     {{ $friend->name }}
@@ -49,7 +49,7 @@
         <div class="font-bold mt-3">Games Scheduled</div>
             @foreach($events as $event)
                 <div 
-                    class="text-sm w-96 hover:bg-gray-100 cursor-pointer {{ $loop->odd ? 'bg-gray-200' : '' }}"
+                    class="text-sm w-96 hover:bg-teal-700 text-yellow-900 cursor-pointer hover:text-yellow-400 {{ $loop->odd ? 'bg-green-100' : '' }}"
                     @click="window.location.href = '{{ route('view-event', ['eventId' => $event->id]) }}' "  
                 >
                     {{ $event->game->name }} at {{ $event->location }}

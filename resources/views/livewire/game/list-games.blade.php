@@ -17,7 +17,7 @@
         <tbody>
             @foreach ($games as $game)
             
-            <tr class="hover:bg-teal-700 text-yellow-900 cursor-pointer hover:text-yellow-400 font-spacemono "
+            <tr class="hover:bg-teal-700 text-yellow-900 cursor-pointer hover:text-yellow-400"
             onclick="window.location='{{ route('game-details', ['bggId' => $game->bgg_id]) }}'"
             >
                 <td class="border border-gray-300 p-2">

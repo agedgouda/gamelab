@@ -23,7 +23,7 @@ class UserDetails extends Component
     public function addFriend()
     {
         $authUser = Auth::user();
-        if (!$authUser->friends()->where('id', $this->userId)->exists()) {
+        if (!$authUser->friends()->where('friend_id', $this->userId)->exists()) {
             $authUser->friends()->attach($this->userId);
         }
     }
@@ -31,7 +31,7 @@ class UserDetails extends Component
     public function removeFriend()
     {
         $authUser = Auth::user();
-        if ($authUser->friends()->where('id', $this->userId)->exists()) {
+        if ($authUser->friends()->where('friend_id', $this->userId)->exists()) {
             $authUser->friends()->detach($this->userId);
         }
     }
