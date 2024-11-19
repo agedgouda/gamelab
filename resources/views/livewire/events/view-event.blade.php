@@ -2,23 +2,33 @@
     <x-primary-button class="pl-5 mb-2">
         <a href="/events">View all upcoming games</a>
     </x-primary-button>
+
+    <div class="font-bold text-center flex flex-col text-3xl items-center">
+        <img src="{{ $event->game->thumbnail }}" class="object-cover mb-2" />
+        {{ $event->game->name }}
+    </div>
+
     <div>
-        <span class="font-bold">Title:</span> {{ $event->title }}
-    </div>   
-    <div>
-        <span class="font-bold">Location:</span> {{ $event->location }}
+        <span class="font-bold">Where:</span> {{ $event->location }}
     </div>    
     <div>
         <span class="font-bold">Description:</span> {{ $event->description }}
     </div>    
     <div>
-        <span class="font-bold">Game:</span> {{ $event->game->name }}
-    </div>
-    <div>
         <span class="font-bold">Principal Investigator:</span> {{ $event->user->name }}
     </div>
     <div>
-        <div class="font-bold">Proposed Times</div>
+        <div class="font-bold">
+            Proposed Times
+        </div>
+        @if (!$event->proposedDates->some(function ($proposedDate)  {
+            return $proposedDate->availabilities->contains('user_id', auth()->id());
+        })) 
+        <div class="text-sm">Click the thumbs up for each time you can attend, thumbs down for each day you can't.</div>
+            @if(!auth()->id())
+                <div class="text-sm">You must be logged in to RSVP. Click <a class="text-yellow-600 hover:text-yellow-700 cursor-pointer" href="{{route('login')}}">here to login</a>. Not registered? <a class="text-yellow-600 hover:text-yellow-700 cursor-pointer" href="{{route('register')}}">Click here</a>, it's free!<div> 
+            @endif  
+        @endif
         @php
             if ($event->date_selected_id) {
                 // Filter to get only the selected date if it exists
@@ -30,7 +40,7 @@
             }
         @endphp
         @foreach($datesToDisplay as $date)
-        <div class="grid grid-cols-3 mb-2 pt-3 pb-3  {{ $loop->odd ? 'bg-gray-200' : '' }}">
+        <div class="grid grid-cols-3 mb-2 pt-3 pb-3  {{ $loop->odd ? 'bg-green-100' : '' }}">
             
             @php
                 // Get the availability for the current user

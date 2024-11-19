@@ -16,7 +16,10 @@ export default {
       extend: {
         fontFamily: {
           sans: ['Figtree', ...defaultTheme.fontFamily.sans],
-    data70: ['Data70', ...defaultTheme.fontFamily.sans],
+          data70: ['Data70', ...defaultTheme.fontFamily.sans],
+          orbitron: ['Orbitron', 'sans-serif'],
+          spacemono: ['Space Mono', 'sans-serif'],
+          exo: ['Exo', ...defaultTheme.fontFamily.sans],
         },
       },
     },

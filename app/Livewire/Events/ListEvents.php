@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Livewire\Events;
-
+use App\Services\BoardGameGeekService;
 use Livewire\Component;
 use App\Models\Event;
 
@@ -13,6 +13,9 @@ class ListEvents extends Component
     public function setSelectedEvent($eventId)
     {
         $this->eventId = $eventId;
+    }
+
+    public function mount() {
     }
 
     public function render()

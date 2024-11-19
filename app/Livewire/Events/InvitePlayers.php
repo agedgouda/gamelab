@@ -59,14 +59,7 @@ class InvitePlayers extends Component
                 ->where('email', $this->email)
                 ->first();
     
-            if ($invitee) {
-                //if it has been successfully sent stop the process
-                if ($invitee->message_status !='not sent') {
-                    $this->addError('invite', 'That person has already been invited.');
-                    $this->isProcessing = false;
-                    return; // Stop further execution
-                }
-            } else {  
+            if (!$invitee) {
                 // Create the Invitee record if it doesn't exist
                 $invitee = Invitee::create([
                     'event_id' => $eventId,

@@ -20,7 +20,7 @@ new #[Layout('layouts.guest')] class extends Component
     public function mount()
     {
         // Retrieve session flash data (if available) for message and route
-        $this->route = session('route', '/welcome-event');
+        $this->route = session('route', url()->previous());
     }
 
 
