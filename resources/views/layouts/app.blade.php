@@ -23,7 +23,7 @@
             <!-- Page Heading -->
             @if (isset($header))
                 <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    <div class="p-5 mx-auto py-6 px-4 sm:px-6 lg:px-8 bg-teal-700  text-yellow-400">
                         {{ $header }}
                     </div>
                 </header>
@@ -31,7 +31,9 @@
 
             <!-- Page Content -->
             <main>
-                {{ $slot }}
+                <div class="p-7 text-gray-900">
+                    {{ $slot }}
+                </div>
             </main>
         </div>
         @livewire('wire-elements-modal')

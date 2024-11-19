@@ -32,7 +32,7 @@ Route::view('events/{eventId}', 'events')
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::view('schedule', 'schedule')
+    Route::view('schedule', 'events')
         ->name('schedule');
 
     Route::view('games/{bggId}', 'games')

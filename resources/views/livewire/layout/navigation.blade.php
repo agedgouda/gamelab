@@ -18,21 +18,21 @@ new class extends Component
 
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto px-4 sm:px-6 lg:px-8 bg-gray-100">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a class="flex" href="{{ route('events') }}" wire:navigate>
-                        <x-application-logo class="block h-9 w-14 fill-current text-gray-800" />
-                        <h2 class="font-semibold text-xl text-gray-800 leading-tight font-data70 mt-1 tracking-widest">
+                        <x-application-logo class="block h-9 w-14 fill-current stroke-current text-yellow-600" />
+                        <h2 class="font-semibold text-xl text-yellow-600 leading-tight font-data70 mt-1 tracking-widest">
                             Gamelab
                         </h2>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex ">
                     <x-nav-link :href="route('events')" :active="request()->routeIs('*event*')" wire:navigate>
                         {{ __('Upcoming Games') }}
                     </x-nav-link>

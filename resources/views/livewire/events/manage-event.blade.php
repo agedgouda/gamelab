@@ -1,5 +1,5 @@
 <div>
-    <div class="relative">
+    
     <form wire:submit="{{ $isEditMode ? 'update' : 'store' }}"> 
         <div class="grid grid-cols-4">    
             <div class="mt-4 mb-5"> 

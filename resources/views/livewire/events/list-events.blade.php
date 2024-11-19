@@ -1,87 +1,54 @@
-<div class="w-full mb-5">
-    <div class="font-bold mb-5">
-        Upcoming Games
-    </div>
+<div class="w-full mb-5 text-yellow-900 ">
+    
     @if($events)
-    <div class="grid grid-cols-8">
-        <div class="font-semibold">
-            Game
-        </div>
-        <div class="font-semibold">
-            Location
-        </div>
-        <div class="font-semibold flex justify-center">
-            Invitees
-        </div>
-        <div class="font-semibold">
-            Dates
-        </div>
-        <div class="font-semibold flex justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="green" class="h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z" />
-            </svg>
-        </div>
-        <div class="font-semibold flex justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" class="h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M7.498 15.25H4.372c-1.026 0-1.945-.694-2.054-1.715a12.137 12.137 0 0 1-.068-1.285c0-2.848.992-5.464 2.649-7.521C5.287 4.247 5.886 4 6.504 4h4.016a4.5 4.5 0 0 1 1.423.23l3.114 1.04a4.5 4.5 0 0 0 1.423.23h1.294M7.498 15.25c.618 0 .991.724.725 1.282A7.471 7.471 0 0 0 7.5 19.75 2.25 2.25 0 0 0 9.75 22a.75.75 0 0 0 .75-.75v-.633c0-.573.11-1.14.322-1.672.304-.76.93-1.33 1.653-1.715a9.04 9.04 0 0 0 2.86-2.4c.498-.634 1.226-1.08 2.032-1.08h.384m-10.253 1.5H9.7m8.075-9.75c.01.05.027.1.05.148.593 1.2.925 2.55.925 3.977 0 1.487-.36 2.89-.999 4.125m.023-8.25c-.076-.365.183-.75.575-.75h.908c.889 0 1.713.518 1.972 1.368.339 1.11.521 2.287.521 3.507 0 1.553-.295 3.036-.831 4.398-.306.774-1.086 1.227-1.918 1.227h-1.053c-.472 0-.745-.556-.5-.96a8.95 8.95 0 0 0 .303-.54" />
-            </svg>
-        </div>
-        <div class="font-semibold flex justify-center">
-
-        </div>
-    </div>
-    @foreach($events as $event)
-    <div class="grid grid-cols-8 hover:bg-gray-100 cursor-pointer {{ $loop->odd ? 'bg-gray-200' : '' }}" @click="window.location.href = '/events/{{ $event->id }}'">
-        <div class="align-middle">
-            {{ $event->game->name }}
-        </div>
-        <div class="align-middle">
-            {{ $event->location }}
-        </div>
-        <div class="flex justify-center">
-            {{count($event->invitees)}}
-        </div>
-        <div class="align-middle col-span-4">
-            @php
-                if ($event->date_selected_id) {
-                    // Filter to get only the selected date if it exists
-                    $datesToDisplay = $event->proposedDates->where('id', $event->date_selected_id);
-                    
-                } else {
-                    // Otherwise, get all dates
-                    $datesToDisplay = $event->proposedDates;
-                }
-            @endphp
-            @foreach($datesToDisplay as $date)
+    <table class="w-full bg-slate-100">
+        <thead class=" bg-green-100 text-yellow-900">
+            <tr>
+                <th class="font-semibold border border-gray-300 p-2">Game</th>
+                <th class="font-semibold border border-gray-300 p-2">Location</th>
+                <th class="font-semibold border border-gray-300 p-2">Dates</th>
+                <th class="font-semibold border border-gray-300 p-2 text-center">
+                    # Accepted
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($events as $event)
+            <tr class="hover:bg-teal-700 text-yellow-900 hover:text-yellow-400 cursor-pointer  {{ $event->date_selected_id ? ' font-bold ' : '' }}" 
+                @click="window.location.href = '/events/{{ $event->id }}'">
+                <td class="border border-gray-300 p-2 align-middle">{{ $event->game->name }}</td>
+                <td class="border border-gray-300 p-2 align-middle">{{ $event->location }}</td>
                 @php
-                $availabilitiesForDate = $date->availabilities;
-                [$available, $notAvailable] = collect($availabilitiesForDate)->partition(fn($availability) => $availability['is_available'] == 1);
+                $datesToDisplay = $event->date_selected_id 
+                    ? $event->proposedDates->where('id', $event->date_selected_id) 
+                    : $event->proposedDates;
                 @endphp
-                <div class="grid grid-cols-4">
+                <td class="border border-gray-300 p-2 align-middle text-center">
+                    @foreach($datesToDisplay as $date)
                     <div>
-                    {{ \Carbon\Carbon::parse($date->date_time)->format('h:i A') }} {{ \Carbon\Carbon::parse($date->date_time)->format('m/d/Y') }}<br>
+                        {{ \Carbon\Carbon::parse($date->date_time)->format('h:i A m/d/Y') }}
                     </div>
-                    <div class="flex justify-center">{{ count($available)}}</div>
-                    <div class="flex justify-center">{{ count($notAvailable)}}</div>                   
-                    <div class="flex justify-center">
-                        @if($date->id  == $event->date_selected_id)
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="green" class="h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                        </svg>
-                        Game Day
-                        @endif
-                    </div>
-                </div>
-            @endforeach
-        </div>
-        <div>
-            <x-danger-button class="mt-2">
-                <a href="/events/{{$event->id}}">Details</a>
-            </x-danger-button>
-        </div>
-    </div>
-    @endforeach
+                    @endforeach
+                </td>
 
+                <td class="border border-gray-300 p-2 align-middle text-center">
+                    @foreach($datesToDisplay as $date)
+                    @php
+                        // Calculate availability counts only once
+                        $availabilitiesForDate = $date->availabilities;
+                        [$available, $notAvailable] = collect($availabilitiesForDate)
+                            ->partition(fn($availability) => $availability['is_available'] == 1);
+                    @endphp
+                    <div class="{{ $date->id == $event->date_selected_id ? ' font-bold ' : '' }}">
+                        {{ count($available) }}
+                    </div>
+                    @endforeach
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+    
 
     @else
     <div class="font-semibold mb-5">
