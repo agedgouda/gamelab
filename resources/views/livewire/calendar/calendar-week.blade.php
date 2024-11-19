@@ -2,14 +2,14 @@
      <div class="flex">
         <div class="overflow-x-auto w-full">
             <div class="inline-block min-w-full overflow-hidden">
-                    <div class="w-full flex flex-row bg-red-200">
+                    <div class="w-full flex flex-row bg-teal-700 text-yellow-400">
                         <div class="w-full h-full" >
                             <div class="w-full h-full p-2 flex flex-col text-center border border-b-0">
                                 {{ \Carbon\Carbon::create()->month($month)->format('F');}} {{ $year }}
                             </div>
                         </div>
                     </div>
-                    <div class="w-full flex flex-row bg-sky-200">
+                    <div class="w-full flex flex-row bg-green-100">
 
                         @php
                             $daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

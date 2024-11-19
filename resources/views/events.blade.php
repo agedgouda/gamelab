@@ -11,6 +11,9 @@
                 @case(request()->routeIs('edit-event'))
                     Edit Upcoming Game
                     @break
+                @case(request()->routeIs('schedule'))
+                    New Game
+                    @break
             @endswitch
         </h2>
     </x-slot>

@@ -1,6 +1,6 @@
 <div>
     <div class="inline-block min-w-full overflow-hidden">
-        <div class="w-full h-full flex p-5 flex-col text-center bg-sky-200">
+        <div class="w-full h-full flex p-5 flex-col text-center bg-teal-700 text-yellow-400">
             {{ \Carbon\Carbon::parse($weekday->day)->format('l, F jS') }}
         </div>
         @foreach ($times as $time)

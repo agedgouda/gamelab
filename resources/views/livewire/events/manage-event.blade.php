@@ -1,4 +1,4 @@
-<div>
+<div class="w-full mb-5 text-yellow-900">
     
     <form wire:submit="{{ $isEditMode ? 'update' : 'store' }}"> 
         <div class="grid grid-cols-4">    
