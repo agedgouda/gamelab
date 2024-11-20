@@ -31,7 +31,7 @@
 
             <!-- Page Content -->
             <main>
-                <div class="p-7 text-gray-900">
+                <div class="p-7 text-yellow-900">
                     {{ $slot }}
                 </div>
             </main>

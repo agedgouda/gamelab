@@ -19,7 +19,6 @@
     </x-slot>
 
     <div>
-       
         @switch(true)
             @case(request()->routeIs('welcome-event') || request()->routeIs('events') )
                 @livewire('events.list-events')
