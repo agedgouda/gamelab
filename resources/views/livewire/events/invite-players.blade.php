@@ -62,7 +62,7 @@
 
         @if(auth()->check())
         <form wire:submit.prevent="sendInvite({{ $eventId }})">
-            <div class="grid grid-cols-3 mb-2 {{ !isset($currentIndex) || ($currentIndex + 1) % 2 === 0 ? 'bg-gray-200' : '' }} py-4">
+            <div class="grid grid-cols-3 mb-2 {{ !isset($currentIndex) || ($currentIndex + 1) % 2 === 0 ? 'bg-green-100' : '' }} py-4">
                 <div class="flex flex-col items-start pl-3">
                     <input type="text" wire:model.defer="name" placeholder="Enter Name" class="border rounded px-2 py-1 w-full" />
                     @error('name') 
