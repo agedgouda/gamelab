@@ -18,7 +18,7 @@
         <span class="font-bold">Principal Investigator:</span> {{ $event->user->name }}
     </div>
     <div>
-        <div class="font-bold">
+        <div class="font-bold mb-1">
             Proposed Times
         </div>
         @if (!$event->proposedDates->some(function ($proposedDate)  {
