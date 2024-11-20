@@ -17,9 +17,13 @@ class UserList extends Component
     {
         $users = User::paginate(25);
 
+        $friends = auth()->user()->friends->pluck('id');
+        $friendOf = auth()->user()->friendOf->pluck('id');
 
         return view('livewire.directory.user-list',[
             'users' => $users,
+            'friends' => $friends,
+            'friendOf' => $friendOf,
             'search' => $this->search
         ]);
 

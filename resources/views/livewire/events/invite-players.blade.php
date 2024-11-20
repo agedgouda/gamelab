@@ -12,7 +12,7 @@
             <div class="grid grid-cols-3 {{ $loop->odd ? 'bg-green-100' : '' }} py-4">
                 <div class="flex items-center pl-3">
                     @if( $invitee->user && $invitee->user->friendOf->contains('id', auth()->id()))
-                        <x-application-logo class="h-6 w-[30px] text-gray-800 " />
+                        <x-application-logo class="h-6 w-[30px] mr-1 text-gray-800 " />
                     @endif
                     <span class="mr-2">{{ $invitee->name }} </span>
                 </div>
@@ -20,7 +20,7 @@
                 @if( !$invitee->user ||  ($invitee->user && !$invitee->user->events->contains('id',$eventId)))
                     <div class="flex justify-center" wire:loading.remove wire:click="sendInvite({{ $eventId }}, '{{ $invitee->name }}', '{{ $invitee->email }}')">
                         @if($invitee->user && collect($invitee->user->availabilities)->pluck('proposed_date_id')->intersect(collect($event->proposedDates)->pluck('id'))->isNotEmpty()) 
-                            User Responded
+                            User Responded 
                         @else
                         <x-danger-button class="px-4 py-2">
                             Resend Invitation

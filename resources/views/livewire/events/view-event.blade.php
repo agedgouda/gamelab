@@ -62,7 +62,7 @@
                     stroke="currentColor" 
                     class="h-6"
                     :class="{
-                        'text-green-500': selected === 1 || hover === 1,
+                        'text-teal-700': selected === 1 || hover === 1,
                         'text-gray-500': selected === 0 || hover === null && selected === null,
                     }"
                     @click="selected = 1; hover = 1; $wire.enterAvailability(1, {{ $date->id }})"
@@ -85,7 +85,7 @@
                     stroke="currentColor" 
                     class="h-6"
                     :class="{
-                        'text-red-500': selected === 0 || hover === 0,
+                        'text-red-600': selected === 0 || hover === 0,
                         'text-gray-500': selected === 1 || hover === null && selected === null,
                     }"
                     @click="selected = 0; hover = 0; $wire.enterAvailability(0, {{ $date->id }})"
