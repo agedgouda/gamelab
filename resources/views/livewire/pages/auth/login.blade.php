@@ -17,8 +17,11 @@ new #[Layout('layouts.guest')] class extends Component
         // Retrieve session flash data (if available) for message and route
         $this->message = session('message', ''); // default value is 'sheboygan'
         $this->route = session('route', url()->previous()); // default value is the page the login link was sent from
+        if(str_contains($this->route,'login') || str_contains($this->route,'reset-password')) {
+            $this->route = session('route', 'events');
+        }
     }
-
+    
     public function redirectToRegister()
     {
         // Set the session variables
@@ -48,6 +51,7 @@ new #[Layout('layouts.guest')] class extends Component
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
     {{ $message }} <br />
+    {{$route}}
     <form wire:submit="login">
         <!-- Email Address -->
         <div>

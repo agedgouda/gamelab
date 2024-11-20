@@ -19,9 +19,13 @@
                 <div class="flex items-center pl-3">{{ $invitee->email }}</div>
                 @if( !$invitee->user ||  ($invitee->user && !$invitee->user->events->contains('id',$eventId)))
                     <div class="flex justify-center" wire:loading.remove wire:click="sendInvite({{ $eventId }}, '{{ $invitee->name }}', '{{ $invitee->email }}')">
+                        @if($invitee->user && collect($invitee->user->availabilities)->pluck('proposed_date_id')->intersect(collect($event->proposedDates)->pluck('id'))->isNotEmpty()) 
+                            User Responded
+                        @else
                         <x-danger-button class="px-4 py-2">
                             Resend Invitation
                         </x-danger-button>
+                        @endif
                     </div>
                 @else
                     <div class="flex justify-center font-bold">Event Organizer</div>

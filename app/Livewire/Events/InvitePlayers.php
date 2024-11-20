@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use App\Models\Invitee;
+use App\Models\Event;
 use App\Mail\InvitePlayer;
 
 
@@ -14,6 +15,7 @@ class InvitePlayers extends Component
 {
     
     public $eventId;
+    public $event;
     public $invitees = [];
     public $name;
     public $email;
@@ -21,6 +23,9 @@ class InvitePlayers extends Component
     public $emailSent = null;
     public $uninvitedFriends = [];
 
+    public function mount() {
+        $this->event = Event::with('proposedDates')->findOrFail($this->eventId);
+    }
     
     public function getUninvitedFriends()
     {
