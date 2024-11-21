@@ -4,18 +4,20 @@
     @else
         <x-application-logo class="block h-9 fill-current text-gray-800" />
     @endif
-    {{ $user->name }}
-    <div><span class="font-bold">Email:</span> <a href="mailto:{{ $user->email }}" class="text-yellow-900 cursor-pointer hover:text-yellow-400">{{ $user->email }}</a><div>
+    <div class="mt-1">{{ $user->name }}</div>
+    <div><a href="mailto:{{ $user->email }}" class="text-yellow-900 cursor-pointer hover:text-teal-700">{{ $user->email }}</a><div>
 
 
     @if($user->id != auth()->id() )
         <div>
-            <x-danger-button 
+            <x-secondary-button 
                 type="button" 
                 wire:click="{{ auth()->user()->friends->contains($user->id) ? 'removeFriend(' . $user->id . ')' : 'addFriend(' . $user->id . ')' }}"
-                class="align-middle h-2 ml-2">
+                class="align-middle mt-2">
+
+                <img src="/img/both.svg" class="block h-6 mr-2 rounded-full"  />
                 {{ auth()->user()->friends->contains($user->id) ? __('Remove from Friends List') :  __('Add to Friends List')  }}
-            </x-danger-button>
+            </x-secondary-button>
         </div>
     @endif
 
@@ -62,12 +64,12 @@
         @endif
 
         <div>
-            <x-secondary-button class="mt-3 flex items-center" @click="window.location='{{ route('directory') }}'">
+            <x-primary-button class="mt-3 flex items-center" @click="window.location='{{ route('directory') }}'">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-3 mr-2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                 </svg>                      
                 Back
-            </x-secondary-button>
+            </x-primary-button>
         </div>
 
 </div>

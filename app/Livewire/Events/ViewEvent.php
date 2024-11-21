@@ -18,7 +18,7 @@ class ViewEvent extends Component
     public $eventId;
     public $bggGameData;
     public $userAvailabilities = [];
-    public $activeTab = 'invitees';
+    public $activeTab = 'rsvp';
     public $setDateUsers = [];
     public $isProcessing = false;
 
@@ -33,7 +33,6 @@ class ViewEvent extends Component
         $this->eventID = $eventId;
         $this->event = Event::with('proposedDates.availabilities.user','game')->find($eventId);
         $this->bggGameData = $this->boardGameGeekService->fetchGameData($this->event->game->bgg_id);
-
 
         foreach ($this->event->proposedDates as $date) {
             foreach ($date->availabilities as $availability) {

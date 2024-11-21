@@ -1,68 +1,14 @@
 <div class="mb-5">
     <div>
-        @php
-            // Calculate the total number of items in the first loop
-            $inviteeCount = $invitees->count();
-        @endphp
+
         @error('invite') 
             <div class="error text-red-500 flex mb-3 justify-center">{{ $message }}</div>
         @enderror
         <div wire:loading wire:target="sendInvite" class="text-gray-500">Processing...</div>
-        @foreach($invitees as $index => $invitee)
-            <div class="grid grid-cols-3 {{ $loop->odd ? 'bg-green-100' : '' }} py-4">
-                <div class="flex items-center pl-3">
-                    @if($invitee->user && $invitee->user->portrait)
-                        <img src="{{ $invitee->user->portrait }}" class="block h-9 w-9 rounded-full"/>
-                    @endif
-                    @if($invitee->user && !$invitee->user->portrait)
-                        <img src="/img/user.svg" class="block h-9 w-9 mr-2"/>
-                    @endif
-                    <span class="mr-2">{{ $invitee->name }} </span>
-                </div>
-                <div class="flex items-center pl-3">{{ $invitee->email }}</div>
-                @if( !$invitee->user ||  ($invitee->user && !$invitee->user->events->contains('id',$eventId)))
-               
-                    <div class="flex justify-center" wire:loading.remove wire:click="sendInvite({{ $eventId }}, '{{ $invitee->name }}', '{{ $invitee->email }}')">
-                        @if($invitee->user && collect($invitee->user->availabilities)->pluck('proposed_date_id')->intersect(collect($event->proposedDates)->pluck('id'))->isNotEmpty()) 
-                            User Responded 
-                        @else
-                        <x-danger-button class="px-4 py-2">
-                            Resend Invitation
-                        </x-danger-button>
-                        @endif
-                    </div>
-                @else
-                    <div class="flex justify-center font-bold">Event Organizer</div>
-                @endif
-            </div>
-        @endforeach
-
-        @foreach($uninvitedFriends as $index => $friend)
-            @php
-                // Calculate the current loop index by adding the count of the first loop
-                $currentIndex = $inviteeCount + $index;
-            @endphp
-            <div class="grid grid-cols-3 {{ $currentIndex % 2 == 0 ? 'bg-green-100' : '' }} py-4">
-                <div class="flex items-center pl-3">
-                    @if($friend->portrait)
-                        <img src="{{ $friend->portrait }}" class="block h-9 w-9 mr-2 rounded-full"/>
-                    @else
-                        <img src="/img/user.svg" class="block h-9 w-9 mr-2"/>
-                    @endif
-                    <span class="mr-2">{{ $friend->name }}</span>
-                </div>
-                <div class="flex items-center pl-3">{{ $friend->email }}</div>
-                <div class="flex justify-center" wire:loading.remove wire:click="sendInvite({{ $eventId }}, '{{ $friend->name }}', '{{ $friend->email }}')">
-                    <x-danger-button class="px-4 py-2">
-                        Send Invitation
-                    </x-danger-button>
-                </div>
-            </div>
-        @endforeach
-
         @if(auth()->check())
+
         <form wire:submit.prevent="sendInvite({{ $eventId }})">
-            <div class="grid grid-cols-3 mb-2 {{ !isset($currentIndex) || ($currentIndex + 1) % 2 === 0 ? 'bg-green-100' : '' }} py-4">
+            <div class="grid grid-cols-3 mb-2 py-4">
                 <div class="flex flex-col items-start pl-3">
                     <input type="text" wire:model.defer="name" placeholder="Enter Name" class="border rounded px-2 py-1 w-full" />
                     @error('name') 
@@ -94,5 +40,69 @@
             </div>
         </form>
         @endif
+
+        <table class="w-full bg-slate-100 border-collapse border border-gray-300">
+            <thead class="bg-green-100 text-yellow-900">
+                <tr>
+                    <th class="border border-gray-300 px-4 py-2 text-left">Invitee</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">Email</th>
+                    <th class="border border-gray-300 px-4 py-2 text-center">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($invitees as $index => $invitee)
+                    <tr>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <div class="flex items-center">
+                                @if($invitee->user && $invitee->user->portrait)
+                                <img src="{{ $invitee->user->portrait }}" class="block h-9 w-9 rounded-full mr-2"/>
+                            @elseif($invitee->user && !$invitee->user->portrait)
+                                <img src="/img/user.svg" class="block w-9 mr-2"/>
+                            @endif
+                            <span>{{ $invitee->name }}</span>
+                            </div>
+                        </td>
+                        <td class="border border-gray-300 px-4 py-2">{{ $invitee->email }}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">
+                            @if(!$invitee->user || ($invitee->user && !$invitee->user->events->contains('id', $eventId)))
+                                @if($invitee->user && collect($invitee->user->availabilities)->pluck('proposed_date_id')->intersect(collect($event->proposedDates)->pluck('id'))->isNotEmpty())
+                                    <span>User Responded</span>
+                                @else
+                                    <x-danger-button 
+                                        class="px-4 py-2"
+                                        wire:loading.remove 
+                                        wire:click="sendInvite({{ $eventId }}, '{{ $invitee->name }}', '{{ $invitee->email }}')">
+                                        Resend Invitation
+                                    </x-danger-button>
+                                @endif
+                            @else
+                                <span class="font-bold">Event Organizer</span>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+        
+                @foreach($uninvitedFriends as $index => $friend)
+                    <td class="border border-gray-300 px-4 py-2">
+                        <div class="flex items-center">
+                        @if($friend->portrait)
+                            <img src="{{ $friend->portrait }}" class="block h-9 w-9 mr-2 rounded-full"/>
+                        @else
+                            <img src="/img/user.svg" class="block h-9 w-9 mr-2"/>
+                        @endif
+                        <span class="mr-2">{{ $friend->name }}</span>
+                        </div>
+                    </td>
+                    <td class="border border-gray-300 px-4 py-2">{{ $friend->email }}</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <div class="flex justify-center" wire:loading.remove wire:click="sendInvite({{ $eventId }}, '{{ $friend->name }}', '{{ $friend->email }}')">
+                            <x-danger-button class="px-4 py-2">
+                                Send Invitation
+                            </x-danger-button>
+                        </div>
+                    </td>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 </div>

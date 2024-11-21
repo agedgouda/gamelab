@@ -37,6 +37,7 @@ new class extends Component
                         {{ __('Upcoming Games') }}
                     </x-nav-link>
                 </div>
+                @if(auth()->check())
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('schedule')" :active="request()->routeIs('schedule')" wire:navigate>
                         {{ __('Schedule Game') }}
@@ -52,6 +53,7 @@ new class extends Component
                         {{ __('Game Catalog') }}
                     </x-nav-link>
                 </div>
+                @endif
             </div>
             @if(auth()->check())
             <!-- Settings Dropdown -->

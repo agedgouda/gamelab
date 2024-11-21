@@ -1,5 +1,10 @@
 <div class="w-full mb-5 text-yellow-900 ">
     
+    @if(!auth()->check())
+    Click <a class="text-yellow-600 hover:text-yellow-700 cursor-pointer" href="{{route('login')}}">here to login</a>. Not registered? <a class="text-yellow-600 hover:text-yellow-700 cursor-pointer" href="{{route('register')}}">Click here</a>, it's free!
+    @endif
+
+
     @if($events)
     <table class="w-full bg-slate-100 border-collapse border border-gray-300">
         <thead class="bg-green-100 text-yellow-900">
